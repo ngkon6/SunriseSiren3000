@@ -58,7 +58,7 @@ CRGB customColors[4];
 CRGB customColonPoint;
 
 void sendGitHubRedirect() {
-  const String targetURL = "https://github.com/ILoveAndLikePizza/SunriseSiren3000/releases";
+  const String targetURL = "https://github.com/ngkon6/SunriseSiren3000/releases";
 
   String output = "<h1>Welcome to the Sunrise Siren 3000!</h1><h3>Please use <a href=\"";
   output += targetURL;
