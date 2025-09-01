@@ -1,7 +1,7 @@
 #ifndef _sunrise_siren_studio_h
 #define _sunrise_siren_studio_h
 
-#define VERSION "v1.3.1"
+#define VERSION "v2.0.0"
 
 #include <stdlib.h>
 #include <pthread.h>
