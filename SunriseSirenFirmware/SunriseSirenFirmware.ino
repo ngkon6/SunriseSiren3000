@@ -14,6 +14,8 @@
 #include "Button.h"
 #include "Authentication.h"
 
+#define FIRMWARE_VERSION 10
+
 enum State {
   CLOCK,
   ALARM_PREVIEW,
@@ -64,6 +66,7 @@ void sendGitHubRedirect() {
   output += targetURL;
   output += "\">Sunrise Siren Studio</a> to configure the device.";
 
+  server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
   server.sendHeader("Location", targetURL, true);
   server.send(301, "text/html", output);
 }
@@ -130,6 +133,7 @@ void setup() {
       if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Yes, a Sunrise Siren 3000 is here!");
     });
     server.on("/status", HTTP_GET, []() {
@@ -158,6 +162,7 @@ void setup() {
       output.concat(ldr.maxValue);
       output.concat("\n  }\n}");
 
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "application/json", output);
     });
     server.on("/sensors", HTTP_GET, []() {
@@ -176,6 +181,7 @@ void setup() {
       output.concat(sht21.humidity);
       output.concat("\n  }\n}");
 
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "application/json", output);
     });
     server.on("/update", HTTP_POST, []() {
@@ -216,6 +222,7 @@ void setup() {
 
       asleep = false;
       currentState = CLOCK;
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
     server.on("/custom", HTTP_POST, []() {
@@ -230,6 +237,7 @@ void setup() {
 
       asleep = false;
       currentState = CUSTOM;
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
     server.on("/countdown", HTTP_POST, []() {
@@ -247,12 +255,14 @@ void setup() {
 
       asleep = false;
       currentState = COUNTDOWN;
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
     server.on("/reboot", HTTP_PATCH, []() {
       if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Initiating reboot.");
       rebootSignalSentAt = millis();
     });
@@ -260,6 +270,7 @@ void setup() {
       if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       if (asleep) {
         server.send(418, "text/plain", "zzz... huh? I'm a teapot already doing zzz!");
       } else if (currentState == COUNTDOWN || currentState == ALARM_EDIT_HOURS || currentState == ALARM_EDIT_MINUTES) {
@@ -270,6 +281,7 @@ void setup() {
       }
     });
     server.onNotFound([]() {
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(404, "text/plain", "404 Not Found");
     });
     server.begin();

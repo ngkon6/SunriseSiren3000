@@ -29,7 +29,7 @@ gchar* request(gchar* method, gchar* url, gchar* username, gchar* password, gcha
     if (!curl) return "Error while initializing CURL";
 
     char* ua[18];
-    sprintf(ua, "sunrise-siren-studio/%s", VERSION);
+    sprintf(ua, "sunrise-siren-studio/%s", STUDIO_VERSION);
 
     gchar *userpwd[strlen(username) + strlen(password) + 32];
     sprintf(userpwd, "%s:%s", str_escape(username, ':'), str_escape(password, ':'));

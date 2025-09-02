@@ -1,7 +1,8 @@
 #ifndef _sunrise_siren_studio_h
 #define _sunrise_siren_studio_h
 
-#define VERSION "v2.0.0"
+#define STUDIO_VERSION "v2.0.0"
+#define MINIMAL_FIRMWARE_VERSION 10
 
 #include <stdlib.h>
 #include <pthread.h>

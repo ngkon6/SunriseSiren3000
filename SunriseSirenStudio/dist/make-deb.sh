@@ -1,8 +1,8 @@
 #!/bin/bash
 
 DIR=$(dirname -- "$(readlink -f -- "$0")");
-VERSION=$(sed -nE 's/#define VERSION "v(.*?)"/\1/p' "$DIR/../include/SunriseSirenStudio.h")
-DPKG_NAME="SunriseSirenStudio_${VERSION}_$(dpkg --print-architecture)"
+STUDIO_VERSION=$(sed -nE 's/#define STUDIO_VERSION "v(.*?)"/\1/p' "$DIR/../include/SunriseSirenStudio.h")
+DPKG_NAME="SunriseSirenStudio_${STUDIO_VERSION}_$(dpkg --print-architecture)"
 
 if [ ! -f "$DIR/../build/sunrise-siren-studio" ]; then
     echo "Sunrise Siren Studio has not been compiled yet. Please do that first."
@@ -29,7 +29,7 @@ cp "$DIR/../schema/org.x.sunrise-siren-studio.credentials.gschema.xml" "$BUILD_T
 cp "$DIR/../man/sunrise-siren-studio.1.gz" "$BUILD_TARGET/usr/share/man/man1"
 
 echo "Package: sunrise-siren-studio
-Version: $VERSION
+Version: $STUDIO_VERSION
 Section: utils
 Priority: optional
 Installed-Size: $(du -s "$BUILD_TARGET/usr" | awk '{print $1}')

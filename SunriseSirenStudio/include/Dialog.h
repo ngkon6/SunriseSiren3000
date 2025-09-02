@@ -19,7 +19,7 @@ void show_about_dialog() {
     gtk_show_about_dialog(MainWindow,
         "program-name", "Sunrise Siren Studio",
         "title", "About Sunrise Siren Studio",
-        "version", VERSION,
+        "version", STUDIO_VERSION,
         "logo-icon-name", "sunrise-siren-studio",
         "license-type", GTK_LICENSE_GPL_3_0,
         "copyright", "© 2025 ngkon. All rights reserved.",
