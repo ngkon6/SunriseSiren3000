@@ -542,7 +542,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <!-- n-columns=3 n-rows=2 -->
+                  <!-- n-columns=5 n-rows=2 -->
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -616,6 +616,43 @@
                         <property name="height">2</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkStackSwitcher">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="stack">MainStack</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">4</property>
+                        <property name="top-attach">0</property>
+                        <property name="height">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="icon-name">checkbox-qt</property>
+                            <property name="icon_size">5</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="left-attach">3</property>
+                        <property name="top-attach">0</property>
+                        <property name="height">2</property>
+                      </packing>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -639,7 +676,7 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="transition-duration">250</property>
-            <property name="transition-type">slide-left-right</property>
+            <property name="transition-type">crossfade</property>
             <property name="interpolate-size">True</property>
             <child>
               <!-- n-columns=3 n-rows=2 -->
@@ -913,8 +950,109 @@
                 </child>
               </object>
               <packing>
-                <property name="name">page0</property>
-                <property name="title" translatable="yes">page0</property>
+                <property name="name">MainMenu</property>
+                <property name="title" translatable="yes">Main menu</property>
+              </packing>
+            </child>
+            <child>
+              <!-- n-columns=2 n-rows=3 -->
+              <object class="GtkGrid" id="Menu-Colors">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">50</property>
+                <property name="margin-end">50</property>
+                <property name="margin-top">34</property>
+                <property name="row-spacing">11</property>
+                <property name="column-spacing">50</property>
+                <property name="column-homogeneous">True</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Default color</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Highlight color</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="DefaultColor">
+                    <property name="height-request">64</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="show-editor">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="HighlightColor">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="show-editor">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">The usual color used to display everything.</property>
+                    <attributes>
+                      <attribute name="style" value="italic"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Highlights are used in (configuration of) alarms.</property>
+                    <attributes>
+                      <attribute name="style" value="italic"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">Colors</property>
+                <property name="title" translatable="yes">Colors</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -926,123 +1064,10 @@
                 <property name="margin-bottom">34</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-top">22</property>
-                    <property name="margin-bottom">8</property>
-                    <property name="label" translatable="yes">Colors</property>
-                    <property name="xalign">0</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkListBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="selection-mode">none</property>
-                    <property name="activate-on-single-click">False</property>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">The color of the clock by default.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Default</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkColorButton" id="DefaultColor">
-                                <property name="width-request">80</property>
-                                <property name="height-request">34</property>
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="receives-default">True</property>
-                                <property name="halign">end</property>
-                                <property name="hexpand">True</property>
-                                <property name="title" translatable="yes">Select a default color</property>
-                                <property name="show-editor">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">The color of the clock while flashing during an alarm, ended countdown or alarm time change.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Highlight</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkColorButton" id="HighlightColor">
-                                <property name="width-request">80</property>
-                                <property name="height-request">34</property>
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="receives-default">True</property>
-                                <property name="halign">end</property>
-                                <property name="hexpand">True</property>
-                                <property name="title" translatable="yes">Select a highlight color</property>
-                                <property name="show-editor">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkLabel">
@@ -1676,330 +1701,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-top">28</property>
-                    <property name="margin-bottom">8</property>
-                    <property name="label" translatable="yes">Advanced</property>
-                    <property name="xalign">0</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkListBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="selection-mode">none</property>
-                    <property name="activate-on-single-click">False</property>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-markup" translatable="yes">Example: with this option &lt;b&gt;disabled&lt;/b&gt;, the clock shows 7:55, but when &lt;b&gt;enabled&lt;/b&gt;, it shows 07:55.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Enable leading zero in clock</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSwitch" id="EnableLeadingZero">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="margin-end">12</property>
-                                <property name="margin-top">4</property>
-                                <property name="margin-bottom">4</property>
-                                <property name="hexpand">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">When enabled, the clock skips 1 hour forward.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Enable daylight savings time</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSwitch" id="EnableDST">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="margin-end">12</property>
-                                <property name="margin-top">4</property>
-                                <property name="margin-bottom">4</property>
-                                <property name="hexpand">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">When snoozing an alarm, it will go off again after the specified delay.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Snooze interval</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SnoozeInterval">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="hexpand">True</property>
-                                <property name="adjustment">SnoozeIntervalAdjustment</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes"> seconds</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">When switching to the temperature, humidity or alarm preview, the clock will always show the current time again after the specified delay.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Always return to clock after</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="ClockReturn">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="hexpand">True</property>
-                                <property name="input-purpose">digits</property>
-                                <property name="adjustment">ClockReturnAdjustment</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="margin-end">8</property>
-                                <property name="label" translatable="yes"> seconds</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">The LDR value read by the clock will be constrained between the specified lower and upper values, and then mapped to the clock brightness.</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">LDR mapping boundaries</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="halign">end</property>
-                                <property name="hexpand">True</property>
-                                <property name="label" translatable="yes">Lower: </property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="LDRMin">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="text" translatable="yes">5</property>
-                                <property name="input-purpose">digits</property>
-                                <property name="adjustment">LDRMinAdjustment</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                                <property name="value">5</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-start">16</property>
-                                <property name="label" translatable="yes">Upper: </property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="LDRMax">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="margin-end">8</property>
-                                <property name="text" translatable="yes">5</property>
-                                <property name="input-purpose">digits</property>
-                                <property name="adjustment">LDRMaxAdjustment</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                                <property name="value">5</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">4</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkButton" id="ClockUpdate">
@@ -2021,9 +1726,184 @@
                 </child>
               </object>
               <packing>
-                <property name="name">ClockSettings</property>
-                <property name="title" translatable="yes">Clock settings</property>
-                <property name="position">1</property>
+                <property name="name">Alarms</property>
+                <property name="title" translatable="yes">Alarms</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <!-- n-columns=3 n-rows=3 -->
+              <object class="GtkGrid" id="Menu-Countdown">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">50</property>
+                <property name="margin-end">50</property>
+                <property name="margin-top">34</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin-end">6</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Countdown duration:</property>
+                    <property name="justify">right</property>
+                    <property name="xalign">0.89999997615814209</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="width-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="margin-start">6</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">seconds</property>
+                    <property name="xalign">0.10000000149011612</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">2</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton">
+                    <property name="width-request">100</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="adjustment">CountdownAdjustment</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkListBox">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="margin-start">8</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Allow pausing by pressing the button</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="margin-start">8</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Display countdown with seconds only</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">2</property>
+                    <property name="width">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="margin-top">34</property>
+                    <property name="margin-bottom">8</property>
+                    <property name="label" translatable="yes">More options</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">1</property>
+                    <property name="width">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">Countdown</property>
+                <property name="title" translatable="yes">Countdown</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -2846,7 +2726,7 @@
               <packing>
                 <property name="name">CustomMode</property>
                 <property name="title" translatable="yes">Custom mode</property>
-                <property name="position">2</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -3310,30 +3190,365 @@
                 </child>
               </object>
               <packing>
-                <property name="name">Miscellaneous</property>
-                <property name="title" translatable="yes">Miscellaneous</property>
-                <property name="position">3</property>
+                <property name="name">Information</property>
+                <property name="title" translatable="yes">Information</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="Menu-Settings">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-start">50</property>
+                <property name="margin-end">50</property>
+                <property name="margin-bottom">3</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">28</property>
+                    <property name="margin-bottom">8</property>
+                    <property name="label" translatable="yes">Advanced</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkListBox">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="selection-mode">none</property>
+                    <property name="activate-on-single-click">False</property>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-markup" translatable="yes">Example: with this option &lt;b&gt;disabled&lt;/b&gt;, the clock shows 7:55, but when &lt;b&gt;enabled&lt;/b&gt;, it shows 07:55.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Enable leading zero in clock</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="EnableLeadingZero">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">12</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When enabled, the clock skips 1 hour forward.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Enable daylight savings time</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="EnableDST">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">12</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When snoozing an alarm, it will go off again after the specified delay.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Snooze interval</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="SnoozeInterval">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="hexpand">True</property>
+                                <property name="text" translatable="yes">10</property>
+                                <property name="adjustment">SnoozeIntervalAdjustment</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="value">10</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes"> seconds</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When switching to the temperature, humidity or alarm preview, the clock will always show the current time again after the specified delay.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Always return to clock after</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="ClockReturn">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="hexpand">True</property>
+                                <property name="text" translatable="yes">5</property>
+                                <property name="input-purpose">digits</property>
+                                <property name="adjustment">ClockReturnAdjustment</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="value">5</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="label" translatable="yes"> seconds</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">The LDR value read by the clock will be constrained between the specified lower and upper values, and then mapped to the clock brightness.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">LDR mapping boundaries</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Lower: </property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="LDRMin">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="text" translatable="yes">5</property>
+                                <property name="input-purpose">digits</property>
+                                <property name="adjustment">LDRMinAdjustment</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="value">5</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-left">16</property>
+                                <property name="margin-start">16</property>
+                                <property name="label" translatable="yes">Upper: </property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="LDRMax">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">5</property>
+                                <property name="input-purpose">digits</property>
+                                <property name="adjustment">LDRMaxAdjustment</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="value">5</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
-                <property name="name">page1</property>
-                <property name="title" translatable="yes">page1</property>
-                <property name="position">4</property>
+                <property name="name">Settings</property>
+                <property name="title" translatable="yes">Settings</property>
+                <property name="position">6</property>
               </packing>
             </child>
           </object>
