@@ -254,12 +254,20 @@ void setup() {
       int totalSeconds = server.arg("t").toInt();
 
       countdown.pauseable = (server.arg("pauseable").toInt() == 1);
+      countdown.secondsOnly = (server.arg("secondsonly").toInt() == 1);
       countdown.start(totalSeconds);
 
       asleep = false;
       currentState = COUNTDOWN;
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
+    });
+    server.on("/countdown", HTTP_DELETE, []() {
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
+      if (currentState == COUNTDOWN) {
+        currentState = CLOCK;
+        server.send(200, "text/plain", "Done!");
+      } else server.send(400, "text/plain", "Unable in current state.");
     });
     server.on("/reboot", HTTP_PATCH, []() {
       if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
@@ -433,13 +441,24 @@ void loop() {
   } else if (currentState == COUNTDOWN) {
     CRGB clockColor = (countdown.activity) ? lights.highlightColor : lights.defaultColor;
 
-    for (int i=0; i<4; i++) {
-      int digit = countdown.currentTime / (int) pow(10, i) % 10;
-      int shownDigit = (i > 0 && digit == 0 && countdown.currentTime < pow(10, i)) ? DIGIT_OFF : digit;
+    if (countdown.secondsOnly) {
+      for (int i=0; i<4; i++) {
+        int digit = countdown.currentTime / (int) pow(10, i) % 10;
+        int shownDigit = (i > 0 && digit == 0 && countdown.currentTime < pow(10, i)) ? DIGIT_OFF : digit;
 
-      lights.showSingleDigit(3 - i, shownDigit, clockColor);
+        lights.showSingleDigit(3 - i, shownDigit, clockColor);
+      }
+      lights.setColonPoint(CRGB::Black);
+    } else {
+      int minutes = countdown.currentTime / 60;
+      int seconds = countdown.currentTime % 60;
+
+      char timer[4];
+      sprintf(timer, "%02d%02d", minutes, seconds);
+
+      lights.showTime(String(timer), clockColor, leadingZero);
+      lights.setColonPoint(clockColor);
     }
-    lights.setColonPoint(CRGB::Black);
 
     buzzer.enabled = countdown.activity;
     buzzer.update();

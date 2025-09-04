@@ -62,6 +62,7 @@ GtkSpinButton *AlarmMinute[7];
 GtkSpinButton *CountdownValue;
 GtkSwitch *CountdownPauseable;
 GtkSwitch *CountdownSecondsOnly;
+GtkButton *CountdownStop;
 
 // Custom mode
 GtkListStore *CustomDigits;

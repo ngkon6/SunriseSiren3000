@@ -1734,7 +1734,7 @@
               </packing>
             </child>
             <child>
-              <!-- n-columns=3 n-rows=4 -->
+              <!-- n-columns=3 n-rows=5 -->
               <object class="GtkGrid" id="Menu-Countdown">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -1912,8 +1912,25 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-top">24</property>
-                    <property name="label" translatable="yes">Countdowns will always be stopped by alarms or by holding the button down.</property>
+                    <property name="margin-top">26</property>
+                    <property name="label" translatable="yes">Countdowns can also be stopped by holding the button down or by an alarm.</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">4</property>
+                    <property name="width">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="CountdownStop">
+                    <property name="label" translatable="yes">Stop countdown</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="margin-top">26</property>
+                    <style>
+                      <class name="destructive-action"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -2781,7 +2798,7 @@
                                 <property name="tooltip-markup" translatable="yes">Example: with this option &lt;b&gt;disabled&lt;/b&gt;, the clock shows 7:55, but when &lt;b&gt;enabled&lt;/b&gt;, it shows 07:55.</property>
                                 <property name="margin-left">8</property>
                                 <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Enable leading zero in clock</property>
+                                <property name="label" translatable="yes">Enable leading zero in clock/countdown</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

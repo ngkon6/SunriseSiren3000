@@ -141,6 +141,10 @@ static void apply_countdown(GtkWidget *widget, gpointer user_data) {
         show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Cannot start countdown", "The countdown must be at least 5 seconds!");
         return;
     }
+    if (countdown_total > 5999 && !countdown_seconds_only) {
+        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Cannot start countdown", "The countdown can only exceed 5999 seconds in Seconds Only mode.");
+        return;
+    }
 
     gchar *post_url[PATH_MAX];
     gchar *post_string[64];
@@ -155,6 +159,24 @@ static void apply_countdown(GtkWidget *widget, gpointer user_data) {
     } else {
         // error while trying to start countdown
         show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Failed to start countdown", "An error occurred while starting the countdown. Please try again later.");
+    }
+}
+
+static void stop_countdown(GtkWidget *widget, gpointer user_data) {
+    gchar *delete_url[PATH_MAX];
+    sprintf(delete_url, "http://%s/countdown", hostname);
+
+    gchar *stop = request("DELETE", delete_url, username, password, "");
+
+    if (stop && request_last_status_code == 200) {
+        // countdown stopped successfully
+        show_message_dialog(MainWindow, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Success!", "The countdown has been stopped!");
+    } else if (stop && request_last_status_code == 400) {
+        // no countdown active
+        show_message_dialog(MainWindow, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "Failed to stop countdown", "There is no countdown active right now.");
+    } else {
+        // error while trying to stop countdown
+        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Failed to stop countdown", "An error occurred while trying to stop the countdown. Please try again later.");
     }
 }
 

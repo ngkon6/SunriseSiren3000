@@ -172,6 +172,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         CountdownValue = gtk_builder_get_object(builder, "CountdownValue");
         CountdownPauseable = gtk_builder_get_object(builder, "CountdownPauseable");
         CountdownSecondsOnly = gtk_builder_get_object(builder, "CountdownSecondsOnly");
+        CountdownStop = gtk_builder_get_object(builder, "CountdownStop");
+        g_signal_connect(CountdownStop, "clicked", stop_countdown, NULL);
 
         // Custom mode
         CustomDigits = gtk_builder_get_object(builder, "CustomDigits");

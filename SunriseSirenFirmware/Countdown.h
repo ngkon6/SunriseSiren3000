@@ -10,6 +10,7 @@ class SunriseSiren3000Countdown {
     bool paused = false;
     bool ended = false;
     bool pauseable = false;
+    bool secondsOnly = false;
     bool activity = false;
 
     // seconds
