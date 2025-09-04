@@ -648,10 +648,11 @@
             <property name="can-focus">False</property>
             <child>
               <object class="GtkToolButton" id="ReturnToHome">
-                <property name="width-request">81</property>
+                <property name="width-request">80</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can-focus">False</property>
+                <property name="margin-end">112</property>
                 <property name="icon-name">go-home</property>
               </object>
               <packing>
