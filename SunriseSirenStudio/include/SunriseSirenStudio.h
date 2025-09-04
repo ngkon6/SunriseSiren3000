@@ -109,11 +109,18 @@ GtkEntry *ConnectPassword;
 GtkButton *ConnectConfirm;
 GtkLabel *ConnectVersion;
 
-// ErrorWindow
-GtkWindow *ErrorWindow;
+// ConnectErrorWindow
+GtkWindow *ConnectErrorWindow;
 GtkButton *CloseAfterError;
 GtkButton *RetryAfterError;
 GtkButton *ReconfigureAfterError;
+
+// IncompatibleFirmwareWindow
+GtkWindow *IncompatibleFirmwareWindow;
+GtkLabel *IncompatibilityLabel;
+GtkButton *CloseAfterIncompatibility;
+GtkButton *RetryAfterIncompatibility;
+GtkButton *DownloadAfterIncompatibility;
 
 enum TargetWindow;
 

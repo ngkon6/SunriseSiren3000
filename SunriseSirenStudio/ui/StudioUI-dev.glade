@@ -8,6 +8,111 @@
     <property name="step-increment">1</property>
     <property name="page-increment">60</property>
   </object>
+  <object class="GtkWindow" id="ConnectErrorWindow">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Connection error</property>
+    <property name="resizable">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin-start">10</property>
+            <property name="margin-bottom">8</property>
+            <property name="hexpand">False</property>
+            <property name="label" translatable="yes">:(</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+              <attribute name="size" value="30000"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">It seems like Sunrise Siren Studio failed to connect to your Sunrise Siren 3000. This can be caused by outdated credentials, or the clock is disconnected from power or network.</property>
+            <property name="wrap">True</property>
+            <property name="width-chars">63</property>
+            <property name="max-width-chars">63</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin-top">32</property>
+            <property name="spacing">8</property>
+            <child>
+              <object class="GtkButton" id="CloseAfterError">
+                <property name="label" translatable="yes">Close</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="RetryAfterError">
+                <property name="label" translatable="yes">Retry</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ReconfigureAfterError">
+                <property name="label" translatable="yes">Edit credentials</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="ConnectionWindow">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Sunrise Siren Studio</property>
@@ -390,9 +495,9 @@
     <property name="step-increment">1</property>
     <property name="page-increment">1</property>
   </object>
-  <object class="GtkWindow" id="ErrorWindow">
+  <object class="GtkWindow" id="IncompatibleFirmwareWindow">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Connection error</property>
+    <property name="title" translatable="yes">Outdated firmware</property>
     <property name="resizable">False</property>
     <child>
       <object class="GtkBox">
@@ -408,14 +513,13 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">start</property>
-            <property name="margin-start">10</property>
-            <property name="margin-bottom">8</property>
-            <property name="hexpand">False</property>
-            <property name="label" translatable="yes">:(</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-              <attribute name="size" value="30000"/>
-            </attributes>
+            <property name="margin-start">8</property>
+            <property name="margin-end">8</property>
+            <property name="margin-top">4</property>
+            <property name="label" translatable="yes">Your firmware is too old to use this version of Sunrise Siren Studio.</property>
+            <property name="wrap">True</property>
+            <property name="width-chars">0</property>
+            <property name="max-width-chars">63</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -428,15 +532,30 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="halign">start</property>
-            <property name="label" translatable="yes">It seems like Sunrise Siren Studio failed to connect to your Sunrise Siren 3000. This can be caused by outdated credentials, or the clock is disconnected from power or network.</property>
-            <property name="wrap">True</property>
-            <property name="width-chars">63</property>
-            <property name="max-width-chars">63</property>
+            <property name="margin-start">8</property>
+            <property name="label" translatable="yes">Please flash the newest firmware to your Sunrise Siren 3000.</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="IncompatibilityLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin-start">8</property>
+            <property name="margin-top">12</property>
+            <property name="hexpand">False</property>
+            <property name="label" translatable="yes">[expected and actual versions]</property>
+            <property name="use-markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -447,7 +566,7 @@
             <property name="margin-top">32</property>
             <property name="spacing">8</property>
             <child>
-              <object class="GtkButton" id="CloseAfterError">
+              <object class="GtkButton" id="CloseAfterIncompatibility">
                 <property name="label" translatable="yes">Close</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -460,7 +579,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="RetryAfterError">
+              <object class="GtkButton" id="RetryAfterIncompatibility">
                 <property name="label" translatable="yes">Retry</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -473,11 +592,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="ReconfigureAfterError">
-                <property name="label" translatable="yes">Edit credentials</property>
+              <object class="GtkButton" id="DownloadAfterIncompatibility">
+                <property name="label" translatable="yes">Get newest firmware</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -489,7 +611,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>

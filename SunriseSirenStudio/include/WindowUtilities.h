@@ -387,6 +387,11 @@ static void create_connection(GtkWidget *widget, gpointer user_data) {
     }
 }
 
+// IncompatibleFirmwareWindow
+static void get_newest_firmware(GtkWidget *widget, gpointer user_data) {
+    system("xdg-open https://github.com/ngkon6/SunriseSiren3000");
+}
+
 // key event handlers
 gboolean ctrl_pressed = FALSE;
 

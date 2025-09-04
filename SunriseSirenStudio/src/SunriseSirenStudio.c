@@ -10,7 +10,8 @@
 enum TargetWindow {
     WINDOW_MAIN,
     WINDOW_CONNECTION,
-    WINDOW_ERROR
+    WINDOW_CONNECT_ERROR,
+    WINDOW_INCOMPATIBLE_FIRMWARE
 };
 
 void* thread_function() {
@@ -37,15 +38,20 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         if (status_response) {
             if (clock_status = json_tokener_parse(status_response)) {
-                // success!
-                target = WINDOW_MAIN;
+                if (request_last_firmware_version >= MINIMAL_FIRMWARE_VERSION) {
+                    // all good!
+                    target = WINDOW_MAIN;
+                } else {
+                    // incompatible firmware; please update clock
+                    target = WINDOW_INCOMPATIBLE_FIRMWARE;
+                }
             } else {
                 // failed to parse clock data
-                target = WINDOW_ERROR;
+                target = WINDOW_CONNECT_ERROR;
             }
         } else {
             // failed to fetch clock data
-            target = WINDOW_ERROR;
+            target = WINDOW_CONNECT_ERROR;
         }
 
     } else {
@@ -300,8 +306,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         gtk_application_add_window(app, ConnectionWindow);
         gtk_widget_show_all(ConnectionWindow);
-    } else if (target == WINDOW_ERROR) {
-        ErrorWindow = gtk_builder_get_object(builder, "ErrorWindow");
+    } else if (target == WINDOW_CONNECT_ERROR) {
+        ConnectErrorWindow = gtk_builder_get_object(builder, "ConnectErrorWindow");
 
         CloseAfterError = gtk_builder_get_object(builder, "CloseAfterError");
         g_signal_connect(CloseAfterError, "clicked", quit, NULL);
@@ -312,8 +318,30 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         ReconfigureAfterError = gtk_builder_get_object(builder, "ReconfigureAfterError");
         g_signal_connect(ReconfigureAfterError, "clicked", reconfigure, FALSE);
 
-        gtk_application_add_window(app, ErrorWindow);
-        gtk_widget_show_all(ErrorWindow);
+        gtk_application_add_window(app, ConnectErrorWindow);
+        gtk_widget_show_all(ConnectErrorWindow);
+    } else if (target == WINDOW_INCOMPATIBLE_FIRMWARE) {
+        IncompatibleFirmwareWindow = gtk_builder_get_object(builder, "IncompatibleFirmwareWindow");
+
+        gchar *versions[80];
+        sprintf(versions,
+            "Current clock firmware version: <b>%d</b>\nMinimum requirement for %s: <b>%d</b>",
+            request_last_firmware_version, STUDIO_VERSION, MINIMAL_FIRMWARE_VERSION
+        );
+        IncompatibilityLabel = gtk_builder_get_object(builder, "IncompatibilityLabel");
+        gtk_label_set_label(IncompatibilityLabel, versions);
+
+        CloseAfterIncompatibility = gtk_builder_get_object(builder, "CloseAfterIncompatibility");
+        g_signal_connect(CloseAfterIncompatibility, "clicked", quit, NULL);
+
+        RetryAfterIncompatibility = gtk_builder_get_object(builder, "RetryAfterIncompatibility");
+        g_signal_connect(RetryAfterIncompatibility, "clicked", reboot_program, NULL);
+
+        DownloadAfterIncompatibility = gtk_builder_get_object(builder, "DownloadAfterIncompatibility");
+        g_signal_connect(DownloadAfterIncompatibility, "clicked", get_newest_firmware, NULL);
+
+        gtk_application_add_window(app, IncompatibleFirmwareWindow);
+        gtk_widget_show_all(IncompatibleFirmwareWindow);
     } else exit(1);
 
     g_object_unref(builder);
