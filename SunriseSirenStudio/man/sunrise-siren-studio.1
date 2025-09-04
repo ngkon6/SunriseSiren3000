@@ -1,4 +1,4 @@
-.TH "sunrise\-siren\-studio" 1 "28 May 2025" "v1.3.0" "Sunrise Siren Studio"
+.TH "sunrise\-siren\-studio" 1 "04 Sep 2025" "v2.0.0-beta1" "Sunrise Siren Studio"
 .SH "NAME"
 Sunrise Siren Studio \- Control program for Sunrise Siren 3000
 
@@ -8,18 +8,89 @@ sunrise-siren-studio
 .SH "REQUIREMENTS"
 The most important requirement to use Sunrise Siren Studio, is a Sunrise Siren 3000: the most epic NeoPixel based alarm clock!
 
-.SH "FEATURES"
-\- Set custom colors
+.SH "COMPOSITION"
+As of v2.0.0, Sunrise Siren Studio is composed out of a toolbar at the top and six different menus.
+
+.SS Toolbar
+The toolbar is visible on any menu, and consists of the following items:
 .TP
-\- Set alarms individually for every day of the week
+\- A home button, available in any menu except the main menu, to take the user to the main menu.
 .TP
-\- Set countdowns
+\- A label that is happy to tell you that you are connected to a Sunrise Siren 3000, including its hostname.
 .TP
-\- Read light level, temperature and humidity
+\- A button to set the Sunrise Siren 3000 to sleep mode.
 .TP
-\- Custom mode, where every digit can have a unique color and every pixel can be enabled individually
+\- A button to reboot the ESP32 inside the Sunrise Siren 3000.
 .TP
-\- And more!
+\- A 'universal confirm' button, also accessible with [Left Ctrl] + [S]. Its action depends on the menu you are in:
+.TP
+    \- In the Colors, Alarms and Settings menu, it will update changes made in these menus.
+.br
+They are all bundled in one request, so changes made in the Colors menu will be updated when saving in the Alarms menu, for example.
+.TP
+    \- In the Countdown menu, it will start the countdown.
+.TP
+    \- In the Custom Mode menu, it will apply the custom made digits.
+.TP
+    \- In other menus, this button is disabled. The keyboard shortcut will display a notification in this case.
+
+.SS Colors
+In Sunrise Siren Studio, two colors can be configured:
+.TP
+\- The default color. This color is used basically everywhere on the Sunrise Siren 3000.
+.TP
+\- The highlight color. This color is used during alarms, countdown endings or when configuring an alarm time on the Sunrise Siren 3000.
+
+.SS Alarms
+For every day in the week, an alarm can be configured. Just tell whether it should be enabled, and if so, the time.
+.TP
+When starting Sunrise Siren Studio, the first scheduled alarm is highlighted. The highlight disappears after saving.
+
+.SS Countdown
+Set a countdown clock on your Sunrise Siren 3000!
+.TP
+\- To start a countdown, enter how long the countdown should last and click the 'universal confirm' button.
+.TP
+\- Additionally, allow pausing/resuming the countdown with a button press.
+.TP
+\- As of v2.0.0, countdowns can be displayed in two formats, mm:ss and ssss.
+
+.SS Custom mode
+Even better than a countdown: the ability to make your Sunrise Siren 3000 display whatever you want!
+.br
+\- Colors are customizable for every digit and for the colon point.
+.TP
+\- For every digit, most numbers and letters can be selected, but there is also a custom digit generator available.
+.TP
+\- To apply your custom creation, click the 'universal confirm' button.
+
+.SS Settings
+Miscellaneous settings:
+.TP
+\- Enable leading zero in clock and countdown (example: 7:55 if disabled, 07:55 if enabled).
+.TP
+\- Enable daylight savings time (if enabled, the clock skips 1 hour forward).
+.TP
+\- Snooze interval (time between pushing the snooze button and the alarm starting again).
+.TP
+\- Always return to clock after the specified time when visiting the temperature, humidity and alarm preview.
+.TP
+\- LDR mapping boundaries (the LDR value will be constrained between these before being mapped to the LED brightness).
+.TP
+\- Reset Sunrise Siren Studio credentials. Be careful with this, this will erase the current credentials forever!
+
+.SS Information
+Some wonderful information:
+.TP
+\- Firmware version of the Sunrise Siren 3000. Sunrise Siren Studio will not launch when the clock firmware is too old.
+.TP
+\- LDR value. The raw value that the ESP32 reads from the LDR. 0 in broad daylight, 4095 in near total darkness.
+.TP
+\- SHT21 temperature value. The raw and mapped value that the ESP32 reads from the SHT21 sensor.
+.TP
+\- SHT21 humidity value. The raw and mapped value that the ESP32 reads from the SHT21 sensor.
+.TP
+\- And finally, a beautiful dialog showing very interesting information about Sunrise Siren Studio.
 
 .SH "AUTHOR"
 Sunrise Siren Studio and the ESP32 firmware are proudly made by ngkon.

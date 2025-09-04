@@ -699,9 +699,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="SleepClock">
+                        <property name="width-request">64</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Set Sunrise Siren 3000 to sleep mode</property>
                         <property name="halign">end</property>
                         <child>
                           <object class="GtkImage">
@@ -720,9 +722,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="RebootClock">
+                        <property name="width-request">64</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Reboot Sunrise Siren 3000</property>
                         <property name="halign">end</property>
                         <child>
                           <object class="GtkImage">
@@ -754,6 +758,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="UniversalConfirm">
+                        <property name="width-request">64</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can-focus">True</property>
@@ -1936,6 +1941,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When enabled, pressing the button for a short time will pause the countdown. Pressing it again will resume it.</property>
                                 <property name="halign">start</property>
                                 <property name="margin-start">8</property>
                                 <property name="hexpand">True</property>
@@ -1977,6 +1983,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="tooltip-markup" translatable="yes">When enabled, the countdown is noted as &lt;b&gt;ssss&lt;/b&gt; and is limited to 9999. When disabled, the countdown is noted as &lt;b&gt;mm:ss&lt;/b&gt; and is limited to 5999.</property>
                                 <property name="halign">start</property>
                                 <property name="margin-start">8</property>
                                 <property name="hexpand">True</property>
@@ -2020,7 +2027,7 @@
                     <property name="halign">start</property>
                     <property name="margin-top">26</property>
                     <property name="margin-bottom">8</property>
-                    <property name="label" translatable="yes">More options</property>
+                    <property name="label" translatable="yes">Options</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -2050,6 +2057,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">Cancel an active countdown and return to the clock.</property>
                     <property name="margin-top">26</property>
                     <style>
                       <class name="destructive-action"/>
@@ -2815,6 +2823,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
+                        <property name="tooltip-text" translatable="yes">Apply the created pattern to all 4 digits</property>
                       </object>
                       <packing>
                         <property name="x">680</property>
@@ -2827,7 +2836,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
-                        <property name="tooltip-text" translatable="yes">When clicking the 'Go' </property>
+                        <property name="tooltip-text" translatable="yes">When clicking the 'Go' button above, the digit number will automatically increase. When already at 4, this does not do anything.</property>
                         <property name="active">True</property>
                         <property name="draw-indicator">True</property>
                       </object>
@@ -2918,7 +2927,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="tooltip-markup" translatable="yes">Example: with this option &lt;b&gt;disabled&lt;/b&gt;, the clock shows 7:55, but when &lt;b&gt;enabled&lt;/b&gt;, it shows 07:55.</property>
+                                <property name="tooltip-markup" translatable="yes">Example: with this option &lt;b&gt;disabled&lt;/b&gt;, the clock shows 7:55, but when &lt;b&gt;enabled&lt;/b&gt;, it shows 07:55. This also applies to countdowns.</property>
                                 <property name="margin-left">8</property>
                                 <property name="margin-start">8</property>
                                 <property name="label" translatable="yes">Enable leading zero in clock/countdown</property>
@@ -3309,6 +3318,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">The firmware version of the Sunrise Siren 3000. Upgrades may or may not be compatible with this version of Sunrise Siren Studio.</property>
                                 <property name="margin-start">8</property>
                                 <property name="margin-top">8</property>
                                 <property name="margin-bottom">8</property>
@@ -3482,7 +3492,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
-                            <property name="tooltip-text" translatable="yes">Click to retreive and display values from the clock</property>
+                            <property name="tooltip-text" translatable="yes">Click to retreive and display values from the Sunrise Siren 3000</property>
                             <property name="margin-start">4</property>
                             <property name="margin-end">4</property>
                             <property name="margin-top">4</property>
