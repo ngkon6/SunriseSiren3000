@@ -127,6 +127,8 @@ enum TargetWindow;
 void* thread_function();
 void do_absolutely_nothing() {};
 
+gboolean ctrl_pressed;
+
 static void onActivate(GtkApplication *app, gpointer user_data);
 int main(int argc, char* argv[]);
 

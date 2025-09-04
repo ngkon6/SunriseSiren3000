@@ -107,8 +107,12 @@ static void set_all_custom_pixels(GtkWidget *widget, gpointer user_data) {
 }
 
 static void invert_all_custom_pixels(GtkWidget *widget, gpointer user_data) {
+    ctrl_pressed = TRUE;
+
     for (int i=0; i<21; i++)
         gtk_toggle_button_set_active(CustomSegmentNumber[i], !gtk_toggle_button_get_active(CustomSegmentNumber[i]));
+
+    ctrl_pressed = FALSE;
 }
 
 static void set_custom_digit(GtkWidget *widget, gpointer user_data) {
@@ -125,10 +129,21 @@ static void set_custom_digit(GtkWidget *widget, gpointer user_data) {
 
     gint combo_box_item_count = gtk_tree_model_iter_n_children(gtk_combo_box_get_model(CustomDigit[target_index]), NULL);
     gtk_combo_box_set_active(CustomDigit[target_index], combo_box_item_count - 1);
+
+    if (gtk_toggle_button_get_active(CustomAutoIncrement))
+        gtk_spin_button_set_value(CustomDigitApplyIndex, gtk_spin_button_get_value(CustomDigitApplyIndex) + 1);
 }
 
 static void set_all_custom_digits(GtkWidget *widget, gpointer user_data) {
     for (int i=0; i<4; i++) set_custom_digit(widget, i + 1);
+}
+
+static void check_custom_pixels(GtkWidget *widget, gpointer button_index) {
+    if (ctrl_pressed) return;
+
+    gint segmentStartIndex = (gint) button_index / 3;
+    for (int i=segmentStartIndex * 3; i<segmentStartIndex * 3 + 3; i++)
+        gtk_toggle_button_set_active(CustomSegmentNumber[i], gtk_toggle_button_get_active(widget));
 }
 
 // countdown
@@ -350,7 +365,7 @@ static void universal_confirm(GtkWidget *widget, gpointer user_data) {
     else if (strstr(current_page, "Countdown"))
         apply_countdown(widget, user_data);
     else
-        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Oh no!", "There is nothing to confirm today.");
+        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to save", "Navigate to a menu to save/apply its contents.");
 }
 
 // ConnectionWindow
@@ -393,15 +408,13 @@ static void get_newest_firmware(GtkWidget *widget, gpointer user_data) {
 }
 
 // key event handlers
-gboolean ctrl_pressed = FALSE;
+ctrl_pressed = FALSE;
 
 static void main_window_key_press(GtkWidget *widget, GdkEventKey *e, gpointer data) {
     if (e->keyval == 65507) ctrl_pressed = TRUE;
-    else if (e->keyval == 115) {
-        gchar* visible_tab = gtk_stack_get_visible_child_name(MainStack);
-
-        if (strstr(visible_tab, "ClockSettings")) apply_clock_settings(widget, data);
-        else if (strstr(visible_tab, "CustomMode")) apply_custom_settings(widget, data);
+    else if (e->keyval == 115 && ctrl_pressed) {
+        universal_confirm(widget, data);
+        ctrl_pressed = FALSE;
     } else do_absolutely_nothing(); // idk WHY I have to do this, but I have to
 }
 

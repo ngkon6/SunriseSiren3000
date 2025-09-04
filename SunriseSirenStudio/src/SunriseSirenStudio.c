@@ -220,6 +220,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
             sprintf(pixel_id, "CustomSegmentNumber-%02i", i);
 
             CustomSegmentNumber[i] = gtk_builder_get_object(builder, pixel_id);
+            g_signal_connect(CustomSegmentNumber[i], "clicked", check_custom_pixels, i);
         }
 
         CustomDigitEnableAll = gtk_builder_get_object(builder, "CustomDigitEnableAll");
@@ -237,6 +238,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         CustomDigitApplyAll = gtk_builder_get_object(builder, "CustomDigitApplyAll");
         g_signal_connect(CustomDigitApplyAll, "clicked", set_all_custom_digits, NULL);
+
+        CustomAutoIncrement = gtk_builder_get_object(builder, "CustomAutoIncrement");
 
         // Settings
         EnableLeadingZero = gtk_builder_get_object(builder, "EnableLeadingZero");
