@@ -117,7 +117,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         HighlightColor = gtk_builder_get_object(builder, "HighlightColor");
 
-        glong current_highlight_color = json_object_get_int64(json_object_object_get(json_object_object_get(clock_status, "colors"), "alarm"));
+        glong current_highlight_color = json_object_get_int64(json_object_object_get(json_object_object_get(clock_status, "colors"), "highlight"));
         GdkRGBA *highlight_color = g_new(GdkRGBA, 1);
         highlight_color->red = (gdouble) (current_highlight_color / (int) pow(256, 2) % 256) / 255;
         highlight_color->green = (gdouble) (current_highlight_color / (int) pow(256, 1) % 256) / 255;
@@ -128,8 +128,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         // Alarms
         gchar* alarm_times = json_object_get_string(json_object_object_get(clock_status, "alarmTimes"));
         gint alarms_enabled = json_object_get_int(json_object_object_get(clock_status, "alarmsEnabled"));
-
-        AlarmListBox = gtk_builder_get_object(builder, "AlarmListBox");
+        gint alarm_upcoming = json_object_get_int(json_object_object_get(clock_status, "alarmUpcomingIndex"));
 
         for (int i=0; i<7; i++) {
             gchar* row_id[10];
@@ -164,7 +163,10 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
             validate_alarm_time_sensitivity(AlarmEnable[i], is_enabled, i);
             g_signal_connect(AlarmEnable[i], "state-set", validate_alarm_time_sensitivity, i);
         }
-        gtk_list_box_select_row(AlarmListBox, AlarmRow[5]);
+
+        AlarmListBox = gtk_builder_get_object(builder, "AlarmListBox");
+        gtk_list_box_row_set_selectable(AlarmRow[alarm_upcoming], TRUE);
+        gtk_list_box_select_row(AlarmListBox, AlarmRow[alarm_upcoming]);
 
         // Countdown
         CountdownValue = gtk_builder_get_object(builder, "CountdownValue");

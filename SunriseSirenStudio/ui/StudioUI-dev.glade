@@ -1090,10 +1090,14 @@
                     <property name="can-focus">False</property>
                     <property name="margin-top">34</property>
                     <property name="activate-on-single-click">False</property>
+                    <signal name="activate-cursor-row" handler="gtk_widget_show" swapped="no"/>
+                    <signal name="row-selected" handler="gtk_widget_show" swapped="no"/>
                     <child>
                       <object class="GtkListBoxRow" id="AlarmRow-0">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1178,6 +1182,8 @@
                       <object class="GtkListBoxRow" id="AlarmRow-1">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1264,6 +1270,8 @@
                       <object class="GtkListBoxRow" id="AlarmRow-2">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1351,6 +1359,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1438,6 +1447,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1524,6 +1534,7 @@
                       <object class="GtkListBoxRow" id="AlarmRow-5">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="activatable">False</property>
                         <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
@@ -1611,6 +1622,8 @@
                       <object class="GtkListBoxRow" id="AlarmRow-6">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="activatable">False</property>
+                        <property name="selectable">False</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1698,6 +1711,19 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">26</property>
+                    <property name="label" translatable="yes">The highlighted row is the first scheduled alarm, which can also be configured on the device itself.</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>

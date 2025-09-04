@@ -52,6 +52,7 @@ bool leadingZero;
 bool enableDST;
 int alarmsEnabled;
 String alarmTimes;
+int alarmUpcomingIndex;
 int alarmEditHour;
 int alarmEditMinute;
 
@@ -142,13 +143,15 @@ void setup() {
 
       String output = "{\n  \"colors\": {\n    \"default\": ";
       output.concat(lights.defaultColor.as_uint32_t());
-      output.concat(",\n    \"alarm\": ");
+      output.concat(",\n    \"highlight\": ");
       output.concat(lights.highlightColor.as_uint32_t());
       output.concat("\n  },\n  \"alarmsEnabled\": ");
       output.concat(alarmsEnabled);
       output.concat(",\n  \"alarmTimes\": \"");
       output.concat(alarmTimes);
-      output.concat("\",\n  \"leadingZero\": ");
+      output.concat("\",\n  \"alarmUpcomingIndex\": ");
+      output.concat(alarmUpcomingIndex);
+      output.concat(",\n  \"leadingZero\": ");
       output.concat(leadingZero ? "true" : "false");
       output.concat(",\n  \"enableDST\": ");
       output.concat(enableDST ? "true" : "false");
@@ -334,7 +337,7 @@ void loop() {
 
   bool alarmJustTripped = alarms[d].update(t, snoozeInterval);
   bool alarmAlreadyTrippedToday = (t >= alarms[d].time);
-  const int alarmPreviewIndex = alarmAlreadyTrippedToday ? ntp.getNextDay() : d;
+  alarmUpcomingIndex = alarmAlreadyTrippedToday ? ntp.getNextDay() : d;
 
   if (button.released) {
     if (asleep) asleep = false; else {
@@ -349,17 +352,17 @@ void loop() {
     }
   } else if (button.held && !asleep) {
     if (alarms[d].tripping || alarms[d].snoozed) alarms[d].stop();
-    else if (currentState == ALARM_PREVIEW && alarms[alarmPreviewIndex].enabled) {
+    else if (currentState == ALARM_PREVIEW && alarms[alarmUpcomingIndex].enabled) {
       currentState = ALARM_EDIT_HOURS;
-      alarmEditHour = alarms[alarmPreviewIndex].time.substring(0, 2).toInt();
-      alarmEditMinute = alarms[alarmPreviewIndex].time.substring(2, 4).toInt();
+      alarmEditHour = alarms[alarmUpcomingIndex].time.substring(0, 2).toInt();
+      alarmEditMinute = alarms[alarmUpcomingIndex].time.substring(2, 4).toInt();
     }
     else if (currentState == ALARM_EDIT_HOURS) currentState = ALARM_EDIT_MINUTES;
     else if (currentState == ALARM_EDIT_MINUTES) {
       char newTime[4];
       sprintf(newTime, "%02d%02d", alarmEditHour, alarmEditMinute);
 
-      alarms[alarmPreviewIndex].time = String(newTime);
+      alarms[alarmUpcomingIndex].time = String(newTime);
       String result = generateAlarms();
 
       pref.begin("SS3000-Conf", false);
@@ -409,8 +412,8 @@ void loop() {
     lights.showSingleDigit(3, getDigit(sht21.humidity, 0), lights.defaultColor);
     lights.setColonPoint(lights.defaultColor);
   } else if (currentState == ALARM_PREVIEW) {
-    const int colonFrequency = (alarmPreviewIndex == d) ? 500 : 1200;
-    const String preview = alarms[alarmPreviewIndex].enabled ? alarms[alarmPreviewIndex].time : "----";
+    const int colonFrequency = (alarmUpcomingIndex == d) ? 500 : 1200;
+    const String preview = alarms[alarmUpcomingIndex].enabled ? alarms[alarmUpcomingIndex].time : "----";
 
     lights.showTime(preview, lights.defaultColor, leadingZero);
     lights.setColonPoint((millis() % colonFrequency < colonFrequency / 2) ? lights.defaultColor : CRGB::Black);
