@@ -296,6 +296,9 @@ static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
         // error while trying to apply settings
         show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Failed to save settings", "An error occurred while trying to save and apply the settings. Please try again later.");
     }
+
+    gtk_list_box_unselect_all(AlarmListBox);
+    gtk_widget_hide(HighlightInfoLabel);
 }
 
 static void apply_custom_settings(GtkWidget *widget, gpointer user_data) {

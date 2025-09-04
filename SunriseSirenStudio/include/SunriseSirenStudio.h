@@ -57,6 +57,7 @@ GtkListBoxRow *AlarmRow[7];
 GtkSwitch *AlarmEnable[7];
 GtkSpinButton *AlarmHour[7];
 GtkSpinButton *AlarmMinute[7];
+GtkLabel *HighlightInfoLabel;
 
 // Countdown
 GtkSpinButton *CountdownValue;

@@ -174,6 +174,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         gtk_list_box_row_set_selectable(AlarmRow[alarm_upcoming], TRUE);
         gtk_list_box_select_row(AlarmListBox, AlarmRow[alarm_upcoming]);
 
+        HighlightInfoLabel = gtk_builder_get_object(builder, "HighlightInfoLabel");
+
         // Countdown
         CountdownValue = gtk_builder_get_object(builder, "CountdownValue");
         CountdownPauseable = gtk_builder_get_object(builder, "CountdownPauseable");

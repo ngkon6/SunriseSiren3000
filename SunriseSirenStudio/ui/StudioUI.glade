@@ -1836,7 +1836,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="HighlightInfoLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">26</property>
