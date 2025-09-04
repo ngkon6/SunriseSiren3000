@@ -31,36 +31,46 @@ GtkStack *MainStack;
 
 // MainWindow
 GtkWindow *MainWindow;
-// Clock settings tab
+// Toolbar items
+GtkToolButton *ReturnToHome;
+GtkLabel *HostnameLabel;
+GtkButton *SleepClock;
+GtkButton *RebootClock;
+GtkButton *UniversalConfirm;
+GtkStackSwitcher *TestingStackSwitcher;
+
+// Main menu
+GtkButton *GotoColors;
+GtkButton *GotoAlarms;
+GtkButton *GotoCountdown;
+GtkButton *GotoCustomMode;
+GtkButton *GotoSettings;
+GtkButton *GotoInformation;
+
 // Colors
 GtkColorButton *DefaultColor;
 GtkColorButton *HighlightColor;
 
 // Alarms
+GtkListBox *AlarmListBox;
+GtkListBoxRow *AlarmRow[7];
 GtkSwitch *AlarmEnable[7];
 GtkSpinButton *AlarmHour[7];
 GtkSpinButton *AlarmMinute[7];
 
-// Advanced
-GtkSwitch *EnableLeadingZero;
-GtkSwitch *EnableDST;
-GtkSpinButton *SnoozeInterval;
-GtkSpinButton *ClockReturn;
-GtkSpinButton *LDRMin;
-GtkSpinButton *LDRMax;
+// Countdown
+GtkSpinButton *CountdownValue;
+GtkSwitch *CountdownPauseable;
+GtkSwitch *CountdownSecondsOnly;
 
-GtkButton *ClockUpdate;
-
-// Custom mode tab
+// Custom mode
 GtkListStore *CustomDigits;
-// Basic configuration
+
 GtkColorButton *CustomColor[4];
 GtkColorButton *CustomColor_Colon;
 GtkComboBox *CustomDigit[4];
 GtkEntry *CustomDigitEntry[4];
-GtkButton *CustomUpdate;
 
-// Custom digit generator
 GtkToggleButton *CustomSegmentNumber[21];
 GtkEntry *CustomDigitApplyIndex;
 GtkButton *CustomDigitApply;
@@ -68,25 +78,27 @@ GtkButton *CustomDigitApplyAll;
 GtkButton *CustomDigitEnableAll;
 GtkButton *CustomDigitDisableAll;
 GtkButton *CustomDigitInvertAll;
+GtkCheckButton *CustomAutoIncrement;
 
-// Miscellaneous tab
-// Countdown
-GtkSpinButton *CountdownValue;
-GtkSwitch *CountdownPauseable;
-GtkButton *CountdownStart;
+// Settings
+GtkSwitch *EnableLeadingZero;
+GtkSwitch *EnableDST;
+GtkSpinButton *SnoozeInterval;
+GtkSpinButton *ClockReturn;
+GtkSpinButton *LDRMin;
+GtkSpinButton *LDRMax;
 
-// Sensor information
+GtkButton *Reconfigure;
+
+// Information
+GtkLabel *FirmwareVersionReading;
 GtkLabel *LDRReading;
 GtkLabel *SHT21TemperatureReading;
 GtkLabel *SHT21HumidityReading;
-GtkButton *SensorRefresh;
 GtkListBoxRow *SensorRefreshRow;
+GtkButton *SensorRefresh;
 
-// Miscellaneous Sunrise Siren Stuff
-GtkButton *SleepClock;
-GtkButton *RebootClock;
 GtkButton *AboutProgram;
-GtkButton *Reconfigure;
 
 // ConnectionWindow
 GtkWindow *ConnectionWindow;

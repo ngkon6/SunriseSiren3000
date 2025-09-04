@@ -64,7 +64,46 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         MainStack = gtk_builder_get_object(builder, "MainStack");
 
-        // Clock settings tab
+        // Toolbar items
+        ReturnToHome = gtk_builder_get_object(builder, "ReturnToHome");
+        g_signal_connect(ReturnToHome, "clicked", go_to, "MainMenu");
+
+        gchar *hostname_text[45];
+        sprintf(hostname_text, "Connected to %s", hostname);
+        HostnameLabel = gtk_builder_get_object(builder, "HostnameLabel");
+        gtk_label_set_label(HostnameLabel, hostname_text);
+
+        SleepClock = gtk_builder_get_object(builder, "SleepClock");
+        g_signal_connect(SleepClock, "clicked", sleep_clock, NULL);
+
+        RebootClock = gtk_builder_get_object(builder, "RebootClock");
+        g_signal_connect(RebootClock, "clicked", reboot_clock, NULL);
+
+        UniversalConfirm = gtk_builder_get_object(builder, "UniversalConfirm");
+        g_signal_connect(UniversalConfirm, "clicked", universal_confirm, NULL);
+
+        TestingStackSwitcher = gtk_builder_get_object(builder, "TestingStackSwitcher");
+        gtk_widget_destroy(TestingStackSwitcher);
+
+        // Main menu
+        GotoColors = gtk_builder_get_object(builder, "GotoColors");
+        g_signal_connect(GotoColors, "clicked", go_to, "Colors");
+
+        GotoAlarms = gtk_builder_get_object(builder, "GotoAlarms");
+        g_signal_connect(GotoAlarms, "clicked", go_to, "Alarms");
+
+        GotoCountdown = gtk_builder_get_object(builder, "GotoCountdown");
+        g_signal_connect(GotoCountdown, "clicked", go_to, "Countdown");
+
+        GotoCustomMode = gtk_builder_get_object(builder, "GotoCustomMode");
+        g_signal_connect(GotoCustomMode, "clicked", go_to, "CustomMode");
+
+        GotoSettings = gtk_builder_get_object(builder, "GotoSettings");
+        g_signal_connect(GotoSettings, "clicked", go_to, "Settings");
+
+        GotoInformation = gtk_builder_get_object(builder, "GotoInformation");
+        g_signal_connect(GotoInformation, "clicked", go_to, "Information");
+
         // Colors
         DefaultColor = gtk_builder_get_object(builder, "DefaultColor");
 
@@ -90,15 +129,20 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         gchar* alarm_times = json_object_get_string(json_object_object_get(clock_status, "alarmTimes"));
         gint alarms_enabled = json_object_get_int(json_object_object_get(clock_status, "alarmsEnabled"));
 
+        AlarmListBox = gtk_builder_get_object(builder, "AlarmListBox");
+
         for (int i=0; i<7; i++) {
+            gchar* row_id[10];
             gchar* enable_id[13];
             gchar* hour_id[11];
             gchar* minute_id[13];
 
+            sprintf(row_id, "AlarmRow-%i", i);
             sprintf(enable_id, "AlarmEnable-%i", i);
             sprintf(hour_id, "AlarmHour-%i", i);
             sprintf(minute_id, "AlarmMinute-%i", i);
 
+            AlarmRow[i] = gtk_builder_get_object(builder, row_id);
             AlarmEnable[i] = gtk_builder_get_object(builder, enable_id);
             AlarmHour[i] = gtk_builder_get_object(builder, hour_id);
             AlarmMinute[i] = gtk_builder_get_object(builder, minute_id);
@@ -120,30 +164,14 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
             validate_alarm_time_sensitivity(AlarmEnable[i], is_enabled, i);
             g_signal_connect(AlarmEnable[i], "state-set", validate_alarm_time_sensitivity, i);
         }
+        gtk_list_box_select_row(AlarmListBox, AlarmRow[5]);
 
-        ClockUpdate = gtk_builder_get_object(builder, "ClockUpdate");
-        g_signal_connect(ClockUpdate, "clicked", apply_clock_settings, NULL);
+        // Countdown
+        CountdownValue = gtk_builder_get_object(builder, "CountdownValue");
+        CountdownPauseable = gtk_builder_get_object(builder, "CountdownPauseable");
+        CountdownSecondsOnly = gtk_builder_get_object(builder, "CountdownSecondsOnly");
 
-        // Advanced
-        EnableLeadingZero = gtk_builder_get_object(builder, "EnableLeadingZero");
-        gtk_switch_set_active(EnableLeadingZero, json_object_get_boolean(json_object_object_get(clock_status, "leadingZero")));
-
-        EnableDST = gtk_builder_get_object(builder, "EnableDST");
-        gtk_switch_set_active(EnableDST, json_object_get_boolean(json_object_object_get(clock_status, "enableDST")));
-
-        SnoozeInterval = gtk_builder_get_object(builder, "SnoozeInterval");
-        gtk_spin_button_set_value(SnoozeInterval, json_object_get_int(json_object_object_get(clock_status, "snoozeInterval")));
-
-        ClockReturn = gtk_builder_get_object(builder, "ClockReturn");
-        gtk_spin_button_set_value(ClockReturn, json_object_get_int(json_object_object_get(clock_status, "clockReturn")));
-
-        LDRMin = gtk_builder_get_object(builder, "LDRMin");
-        gtk_spin_button_set_value(LDRMin, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "min")));
-
-        LDRMax = gtk_builder_get_object(builder, "LDRMax");
-        gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
-
-        // Custom
+        // Custom mode
         CustomDigits = gtk_builder_get_object(builder, "CustomDigits");
 
         for (int i=0; i<4; i++) {
@@ -200,38 +228,41 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         CustomDigitApplyAll = gtk_builder_get_object(builder, "CustomDigitApplyAll");
         g_signal_connect(CustomDigitApplyAll, "clicked", set_all_custom_digits, NULL);
 
-        CustomUpdate = gtk_builder_get_object(builder, "CustomUpdate");
-        g_signal_connect(CustomUpdate, "clicked", apply_custom_settings, NULL);
+        // Settings
+        EnableLeadingZero = gtk_builder_get_object(builder, "EnableLeadingZero");
+        gtk_switch_set_active(EnableLeadingZero, json_object_get_boolean(json_object_object_get(clock_status, "leadingZero")));
 
-        // Miscellaneous
-        // Countdown
-        CountdownValue = gtk_builder_get_object(builder, "CountdownValue");
-        CountdownPauseable = gtk_builder_get_object(builder, "CountdownPauseable");
+        EnableDST = gtk_builder_get_object(builder, "EnableDST");
+        gtk_switch_set_active(EnableDST, json_object_get_boolean(json_object_object_get(clock_status, "enableDST")));
 
-        CountdownStart = gtk_builder_get_object(builder, "CountdownStart");
-        g_signal_connect(CountdownStart, "clicked", countdown_start, NULL);
+        SnoozeInterval = gtk_builder_get_object(builder, "SnoozeInterval");
+        gtk_spin_button_set_value(SnoozeInterval, json_object_get_int(json_object_object_get(clock_status, "snoozeInterval")));
 
-        // Sensor information
+        ClockReturn = gtk_builder_get_object(builder, "ClockReturn");
+        gtk_spin_button_set_value(ClockReturn, json_object_get_int(json_object_object_get(clock_status, "clockReturn")));
+
+        LDRMin = gtk_builder_get_object(builder, "LDRMin");
+        gtk_spin_button_set_value(LDRMin, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "min")));
+
+        LDRMax = gtk_builder_get_object(builder, "LDRMax");
+        gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
+
+        Reconfigure = gtk_builder_get_object(builder, "Reconfigure");
+        g_signal_connect(Reconfigure, "clicked", reconfigure, TRUE);
+
+        // Information
+        FirmwareVersionReading = gtk_builder_get_object(builder, "FirmwareVersionReading");
         LDRReading = gtk_builder_get_object(builder, "LDRReading");
         SHT21TemperatureReading = gtk_builder_get_object(builder, "SHT21TemperatureReading");
         SHT21HumidityReading = gtk_builder_get_object(builder, "SHT21HumidityReading");
 
+        SensorRefreshRow = gtk_builder_get_object(builder, "SensorRefreshRow");
         SensorRefresh = gtk_builder_get_object(builder, "SensorRefresh");
         g_signal_connect(SensorRefresh, "clicked", get_sensor_values, NULL);
-        SensorRefreshRow = gtk_builder_get_object(builder, "SensorRefreshRow");
-
-        // Other buttons
-        SleepClock = gtk_builder_get_object(builder, "SleepClock");
-        g_signal_connect(SleepClock, "clicked", sleep_clock, NULL);
-
-        RebootClock = gtk_builder_get_object(builder, "RebootClock");
-        g_signal_connect(RebootClock, "clicked", reboot_clock, NULL);
 
         AboutProgram = gtk_builder_get_object(builder, "AboutProgram");
         g_signal_connect(AboutProgram, "clicked", show_about_dialog, NULL);
 
-        Reconfigure = gtk_builder_get_object(builder, "Reconfigure");
-        g_signal_connect(Reconfigure, "clicked", reconfigure, TRUE);
 
         gtk_application_add_window(app, MainWindow);
         gtk_widget_show_all(MainWindow);

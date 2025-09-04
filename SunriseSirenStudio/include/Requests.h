@@ -2,6 +2,7 @@
 #define _requests_h
 
 gint request_last_status_code = 0;
+gint request_last_firmware_version = -1;
 
 size_t write_memory_callback(void *ptr, size_t size, size_t nmemb, void *data) {
     memcpy(data, ptr, size * nmemb);
@@ -26,6 +27,7 @@ gchar* str_escape(gchar* input, gchar to_escape) {
 
 gchar* request(gchar* method, gchar* url, gchar* username, gchar* password, gchar* post_data) {
     CURL *curl = curl_easy_init();
+    struct curl_header *fwversion_header;
     if (!curl) return "Error while initializing CURL";
 
     char* ua[18];
@@ -53,6 +55,9 @@ gchar* request(gchar* method, gchar* url, gchar* username, gchar* password, gcha
     CURLcode response = curl_easy_perform(curl);
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &request_last_status_code);
+    curl_easy_header(curl, "Firmware-Version", 0, CURLH_HEADER, -1, &fwversion_header);
+    request_last_firmware_version = atoi(fwversion_header->value);
+
     if (response == CURLE_OK) return response_buffer;
 
     curl_global_cleanup();

@@ -67,6 +67,14 @@ static void reconfigure(GtkWidget *widget, gpointer do_reset) {
 }
 
 // MainWindow
+// stack switcher
+static void go_to(GtkWidget *widget, gpointer target) {
+    gtk_stack_set_visible_child_name(MainStack, target);
+
+    gtk_widget_set_sensitive(ReturnToHome, (target != "MainMenu"));
+    gtk_widget_set_sensitive(UniversalConfirm, (target != "MainMenu" && target != "Information"));
+}
+
 // alarm settings
 static void validate_alarm_time_sensitivity(GtkWidget *widget, gboolean state, gpointer user_data) {
     gint index = user_data;
@@ -124,9 +132,10 @@ static void set_all_custom_digits(GtkWidget *widget, gpointer user_data) {
 }
 
 // countdown
-static void countdown_start(GtkWidget *widget, gpointer user_data) {
+static void apply_countdown(GtkWidget *widget, gpointer user_data) {
     gint countdown_total = gtk_spin_button_get_value_as_int(CountdownValue);
     gint countdown_pauseable = gtk_switch_get_active(CountdownPauseable);
+    gint countdown_seconds_only = gtk_switch_get_active(CountdownSecondsOnly);
 
     if (countdown_total < 5) {
         show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Cannot start countdown", "The countdown must be at least 5 seconds!");
@@ -137,7 +146,7 @@ static void countdown_start(GtkWidget *widget, gpointer user_data) {
     gchar *post_string[64];
 
     sprintf(post_url, "http://%s/countdown", hostname);
-    sprintf(post_string, "t=%i&pauseable=%i", countdown_total, countdown_pauseable);
+    sprintf(post_string, "t=%i&pauseable=%i&secondsonly=%i", countdown_total, countdown_pauseable, countdown_seconds_only);
 
     gchar *result = request("POST", post_url, username, password, post_string);
     if (result && strstr(result, "Done!")) {
@@ -157,10 +166,12 @@ void get_sensor_values() {
 
     if (sensors_response) {
         if (clock_sensors = json_tokener_parse(sensors_response)) {
+            gchar *fw_version_label[5];
             gchar *ldr_label[4];
             gchar *temperature_label[20];
             gchar *humidity_label[20];
 
+            sprintf(fw_version_label, "%i", request_last_firmware_version);
             sprintf(ldr_label, "%d", json_object_get_int(json_object_object_get(clock_sensors, "ldr")));
             sprintf(
                 temperature_label,
@@ -175,6 +186,7 @@ void get_sensor_values() {
                 json_object_get_double(json_object_object_get(json_object_object_get(clock_sensors, "humidity"), "translated"))
             );
 
+            gtk_label_set_label(FirmwareVersionReading, fw_version_label);
             gtk_label_set_label(LDRReading, ldr_label);
             gtk_label_set_label(SHT21TemperatureReading, temperature_label);
             gtk_label_set_label(SHT21HumidityReading, humidity_label);
@@ -182,7 +194,7 @@ void get_sensor_values() {
     }
 }
 
-// save buttons
+// save actions
 static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
     // step 1: collect all settings
     GdkRGBA *default_c = g_new(GdkRGBA, 1);
@@ -303,6 +315,20 @@ static void apply_custom_settings(GtkWidget *widget, gpointer user_data) {
         // failed to set custom config
         show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Failed to show custom mode", "An error occurred while trying to save and show the custom mode. Please try again later.");
     }
+}
+
+// save actions caller: the universal confirm!
+static void universal_confirm(GtkWidget *widget, gpointer user_data) {
+    gchar* current_page = gtk_stack_get_visible_child_name(MainStack);
+
+    if (strstr(current_page, "Colors") || strstr(current_page, "Alarms") || strstr(current_page, "Settings"))
+        apply_clock_settings(widget, user_data);
+    else if (strstr(current_page, "CustomMode"))
+        apply_custom_settings(widget, user_data);
+    else if (strstr(current_page, "Countdown"))
+        apply_countdown(widget, user_data);
+    else
+        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Oh no!", "There is nothing to confirm today.");
 }
 
 // ConnectionWindow
