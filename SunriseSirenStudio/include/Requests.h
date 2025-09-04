@@ -30,7 +30,7 @@ gchar* request(gchar* method, gchar* url, gchar* username, gchar* password, gcha
     struct curl_header *fwversion_header;
     if (!curl) return "Error while initializing CURL";
 
-    char* ua[18];
+    char* ua[24];
     sprintf(ua, "sunrise-siren-studio/%s", STUDIO_VERSION);
 
     gchar *userpwd[strlen(username) + strlen(password) + 32];
