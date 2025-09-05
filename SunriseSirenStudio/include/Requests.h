@@ -56,7 +56,7 @@ gchar* request(gchar* method, gchar* url, gchar* username, gchar* password, gcha
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &request_last_status_code);
     curl_easy_header(curl, "Firmware-Version", 0, CURLH_HEADER, -1, &fwversion_header);
-    request_last_firmware_version = atoi(fwversion_header->value);
+    if (fwversion_header) request_last_firmware_version = atoi(fwversion_header->value);
 
     if (response == CURLE_OK) return response_buffer;
 
