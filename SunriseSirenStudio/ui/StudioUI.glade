@@ -1846,7 +1846,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">26</property>
-                    <property name="label" translatable="yes">The highlighted row is the first scheduled alarm, which can also be configured on the device itself.</property>
+                    <property name="label" translatable="yes">The highlighted row is the first scheduled alarm, which - if enabled - can also be configured on the device itself.</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
