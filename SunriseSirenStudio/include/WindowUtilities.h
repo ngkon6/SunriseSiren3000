@@ -414,8 +414,9 @@ static void get_newest_firmware(GtkWidget *widget, gpointer user_data) {
 ctrl_pressed = FALSE;
 
 static void main_window_key_press(GtkWidget *widget, GdkEventKey *e, gpointer data) {
-    if (e->keyval == 65507) ctrl_pressed = TRUE;
-    else if (e->keyval == 115 && ctrl_pressed) {
+    if (e->keyval == 65507) ctrl_pressed = TRUE; // Left Ctrl
+    else if (e->keyval == 65307) go_to(widget, "MainMenu"); // Esc
+    else if (e->keyval == 115 && ctrl_pressed) { // s
         universal_confirm(widget, data);
         ctrl_pressed = FALSE;
     } else do_absolutely_nothing(); // idk WHY I have to do this, but I have to
@@ -427,7 +428,7 @@ static void main_window_key_release(GtkWidget *widget, GdkEventKey *e, gpointer 
 }
 
 static void connection_window_key_press(GtkWidget *widget, GdkEventKey *e, gpointer data) {
-    if (e->keyval == 65293) create_connection(widget, data);
+    if (e->keyval == 65293) create_connection(widget, data); // Enter
     else do_absolutely_nothing();
 }
 
