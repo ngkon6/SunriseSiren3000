@@ -278,6 +278,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         AboutProgram = gtk_builder_get_object(builder, "AboutProgram");
         g_signal_connect(AboutProgram, "clicked", show_about_dialog, NULL);
+        OnGitHub = gtk_builder_get_object(builder, "OnGitHub");
+        g_signal_connect(OnGitHub, "clicked", goto_github, NULL);
 
 
         gtk_application_add_window(app, MainWindow);
@@ -344,7 +346,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         g_signal_connect(RetryAfterIncompatibility, "clicked", reboot_program, NULL);
 
         DownloadAfterIncompatibility = gtk_builder_get_object(builder, "DownloadAfterIncompatibility");
-        g_signal_connect(DownloadAfterIncompatibility, "clicked", get_newest_firmware, NULL);
+        g_signal_connect(DownloadAfterIncompatibility, "clicked", goto_github, NULL);
 
         gtk_application_add_window(app, IncompatibleFirmwareWindow);
         gtk_widget_show_all(IncompatibleFirmwareWindow);

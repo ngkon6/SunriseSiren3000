@@ -102,6 +102,7 @@ GtkListBoxRow *InformationRefreshRow;
 GtkButton *InformationRefresh;
 
 GtkButton *AboutProgram;
+GtkButton *OnGitHub;
 
 // ConnectionWindow
 GtkWindow *ConnectionWindow;

@@ -234,6 +234,10 @@ void fetch_information() {
     }
 }
 
+void goto_github() {
+    system("xdg-open https://github.com/ngkon6/SunriseSiren3000");
+}
+
 // save actions
 static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
     // step 1: collect all settings
@@ -406,11 +410,6 @@ static void create_connection(GtkWidget *widget, gpointer user_data) {
         // request failed, nothing found at all
         show_message_dialog(ConnectionWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to connect", "Failed to connect to your Sunrise Siren 3000.");
     }
-}
-
-// IncompatibleFirmwareWindow
-static void get_newest_firmware(GtkWidget *widget, gpointer user_data) {
-    system("xdg-open https://github.com/ngkon6/SunriseSiren3000");
 }
 
 // key event handlers
