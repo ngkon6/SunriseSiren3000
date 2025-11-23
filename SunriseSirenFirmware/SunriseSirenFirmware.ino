@@ -14,7 +14,7 @@
 #include "Button.h"
 #include "Authentication.h"
 
-#define FIRMWARE_VERSION 10
+#define FIRMWARE_VERSION 11
 
 enum State {
   CLOCK,
@@ -112,6 +112,14 @@ int getDigit(float value, int exponent) {
   return (int)(value + 0.5) / (int) pow(10, exponent) % 10;
 }
 
+int getBrightness() {
+  int payload = ldr.averagedValue;
+  if (buzzer.enabled) payload += ALARM_BRIGHTNESS_INCREMENT;
+  payload -= sleepLevel;
+
+  return payload;
+}
+
 void setup() {
   WiFiManager wm;
   wm.setHostname(HOSTNAME);
@@ -159,6 +167,8 @@ void setup() {
       output.concat(clockReturn / 1000);
       output.concat(",\n  \"snoozeInterval\": ");
       output.concat(snoozeInterval / 1000);
+      output.concat(",\n  \"asleep\": ");
+      output.concat(asleep ? "true" : "false");
       output.concat(",\n  \"ldr\": {\n    \"min\": ");
       output.concat(ldr.minValue);
       output.concat(",\n    \"max\": ");
@@ -168,12 +178,14 @@ void setup() {
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "application/json", output);
     });
-    server.on("/sensors", HTTP_GET, []() {
+    server.on("/information", HTTP_GET, []() {
       if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       String output = "{\n  \"ldr\": ";
       output.concat(ldr.rawValue);
+      output.concat(",\n  \"brightness\": ");
+      output.concat(getBrightness());
       output.concat(",\n  \"temperature\": {\n    \"raw\": ");
       output.concat(sht21.rawTemperature);
       output.concat(",\n    \"translated\": ");
@@ -464,9 +476,7 @@ void loop() {
     buzzer.update();
   }
 
-  int brightness = ldr.averagedValue;
-  if (buzzer.enabled) brightness += ALARM_BRIGHTNESS_INCREMENT;
-  lights.update(brightness - sleepLevel);
+  lights.update(getBrightness());
 
   delay(20);
   ticks++;
