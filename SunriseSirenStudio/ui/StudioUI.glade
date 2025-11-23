@@ -767,7 +767,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="icon-name">checkbox-qt</property>
+                            <property name="icon-name">checkbox</property>
                             <property name="icon_size">5</property>
                           </object>
                         </child>
