@@ -1,8 +1,8 @@
 #ifndef _sunrise_siren_studio_h
 #define _sunrise_siren_studio_h
 
-#define STUDIO_VERSION "v2.0.0"
-#define MINIMAL_FIRMWARE_VERSION 10
+#define STUDIO_VERSION "v2.1.0"
+#define MINIMAL_FIRMWARE_VERSION 11
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -23,7 +23,7 @@ gchar* username[32];
 gchar* password[32];
 
 json_object *clock_status;
-json_object *clock_sensors;
+json_object *clock_information;
 
 GSettings *credentials;
 
@@ -94,11 +94,12 @@ GtkButton *Reconfigure;
 
 // Information
 GtkLabel *FirmwareVersionReading;
+GtkLabel *NeoPixelBrightnessReading;
 GtkLabel *LDRReading;
 GtkLabel *SHT21TemperatureReading;
 GtkLabel *SHT21HumidityReading;
-GtkListBoxRow *SensorRefreshRow;
-GtkButton *SensorRefresh;
+GtkListBoxRow *InformationRefreshRow;
+GtkButton *InformationRefresh;
 
 GtkButton *AboutProgram;
 

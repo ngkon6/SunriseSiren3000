@@ -16,7 +16,7 @@ enum TargetWindow {
 
 void* thread_function() {
     while (1) {
-        get_sensor_values();
+        fetch_information();
         g_usleep(5e6);
     }
 }
@@ -31,7 +31,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
     if (credentials_exist() && g_settings_get_boolean(credentials, "connect-immediately")) {
         // step 2: parse the config file
         credentials_read();
-        // step 3: fetch /status en /sensors
+        // step 3: fetch /status to validate
         gchar* status_url[PATH_MAX];
         sprintf(status_url, "http://%s/status", hostname);
         gchar *status_response = request("GET", status_url, username, password, "");
@@ -267,13 +267,14 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         // Information
         FirmwareVersionReading = gtk_builder_get_object(builder, "FirmwareVersionReading");
+        NeoPixelBrightnessReading = gtk_builder_get_object(builder, "NeoPixelBrightnessReading");
         LDRReading = gtk_builder_get_object(builder, "LDRReading");
         SHT21TemperatureReading = gtk_builder_get_object(builder, "SHT21TemperatureReading");
         SHT21HumidityReading = gtk_builder_get_object(builder, "SHT21HumidityReading");
 
-        SensorRefreshRow = gtk_builder_get_object(builder, "SensorRefreshRow");
-        SensorRefresh = gtk_builder_get_object(builder, "SensorRefresh");
-        g_signal_connect(SensorRefresh, "clicked", get_sensor_values, NULL);
+        InformationRefreshRow = gtk_builder_get_object(builder, "InformationRefreshRow");
+        InformationRefresh = gtk_builder_get_object(builder, "InformationRefresh");
+        g_signal_connect(InformationRefresh, "clicked", fetch_information, NULL);
 
         AboutProgram = gtk_builder_get_object(builder, "AboutProgram");
         g_signal_connect(AboutProgram, "clicked", show_about_dialog, NULL);
@@ -284,10 +285,10 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         pthread_t thread_id;
         if (pthread_create(&thread_id, NULL, thread_function, NULL) == 0) {
-            gtk_widget_set_visible(SensorRefreshRow, FALSE);
+            gtk_widget_set_visible(InformationRefreshRow, FALSE);
         } else {
-            get_sensor_values();
-            show_message_dialog(MainWindow, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Note", "An error occured while starting the sensor values thread.\nYou have to refresh the sensor values manually.");
+            fetch_information();
+            show_message_dialog(MainWindow, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Note", "An error occured while starting the information fetching thread.\nYou have to refresh the information manually.");
         }
     } else if (target == WINDOW_CONNECTION) {
         ConnectionWindow = gtk_builder_get_object(builder, "ConnectionWindow");

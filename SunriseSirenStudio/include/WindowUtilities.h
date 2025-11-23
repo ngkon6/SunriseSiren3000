@@ -157,7 +157,7 @@ static void apply_countdown(GtkWidget *widget, gpointer user_data) {
         return;
     }
     if (countdown_total > 5999 && !countdown_seconds_only) {
-        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Cannot start countdown", "The countdown can only exceed 5999 seconds in Seconds Only mode.");
+        show_message_dialog(MainWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Cannot start countdown", "Activate the option 'Display countdown with seconds only' to exceed 5999 seconds.");
         return;
     }
 
@@ -195,35 +195,38 @@ static void stop_countdown(GtkWidget *widget, gpointer user_data) {
     }
 }
 
-// sensor information
-void get_sensor_values() {
-    gchar* sensors_url[PATH_MAX];
-    sprintf(sensors_url, "http://%s/sensors", hostname);
-    gchar *sensors_response = request("GET", sensors_url, username, password, "");
+// Sunrise Siren 3000 information
+void fetch_information() {
+    gchar* information_url[PATH_MAX];
+    sprintf(information_url, "http://%s/information", hostname);
+    gchar *information_response = request("GET", information_url, username, password, "");
 
-    if (sensors_response) {
-        if (clock_sensors = json_tokener_parse(sensors_response)) {
+    if (information_response) {
+        if (clock_information = json_tokener_parse(information_response)) {
             gchar *fw_version_label[5];
+            gchar *brightness_label[3];
             gchar *ldr_label[4];
             gchar *temperature_label[20];
             gchar *humidity_label[20];
 
             sprintf(fw_version_label, "%i", request_last_firmware_version);
-            sprintf(ldr_label, "%d", json_object_get_int(json_object_object_get(clock_sensors, "ldr")));
+            sprintf(brightness_label, "%d", json_object_get_int(json_object_object_get(clock_information, "brightness")));
+            sprintf(ldr_label, "%d", json_object_get_int(json_object_object_get(clock_information, "ldr")));
             sprintf(
                 temperature_label,
                 "%i → %.2f °C",
-                json_object_get_int(json_object_object_get(json_object_object_get(clock_sensors, "temperature"), "raw")),
-                json_object_get_double(json_object_object_get(json_object_object_get(clock_sensors, "temperature"), "translated"))
+                json_object_get_int(json_object_object_get(json_object_object_get(clock_information, "temperature"), "raw")),
+                json_object_get_double(json_object_object_get(json_object_object_get(clock_information, "temperature"), "translated"))
             );
             sprintf(
                 humidity_label,
                 "%i → %.2f%%",
-                json_object_get_int(json_object_object_get(json_object_object_get(clock_sensors, "humidity"), "raw")),
-                json_object_get_double(json_object_object_get(json_object_object_get(clock_sensors, "humidity"), "translated"))
+                json_object_get_int(json_object_object_get(json_object_object_get(clock_information, "humidity"), "raw")),
+                json_object_get_double(json_object_object_get(json_object_object_get(clock_information, "humidity"), "translated"))
             );
 
             gtk_label_set_label(FirmwareVersionReading, fw_version_label);
+            gtk_label_set_label(NeoPixelBrightnessReading, brightness_label);
             gtk_label_set_label(LDRReading, ldr_label);
             gtk_label_set_label(SHT21TemperatureReading, temperature_label);
             gtk_label_set_label(SHT21HumidityReading, humidity_label);
