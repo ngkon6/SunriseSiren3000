@@ -5,21 +5,19 @@
 ## Introduction
 The Sunrise Siren 3000 is the clock I have in front of my bed. Its job is to display time, temperature and humidity, but most importantly, wake me up whenever I have to wake up. I realize that you may not own a Sunrise Siren 3000 yourself, but I still like to make this project open-source :P  
 This repository consists of two relevant parts of the clock:  
-- the firmware of the clock, located in the `SunriseSirenFirmware` directory. It is flashed onto the ESP32 inside it by using the [Arduino IDE](https://www.arduino.cc/en/software);
+- the firmware of the clock, located in the `SunriseSirenFirmware` directory. It is flashed onto the ESP32 inside it by using `esptool` (version 11 and newer only) or the [Arduino IDE](https://www.arduino.cc/en/software);
 - the control program, **Sunrise Siren Studio**, located in the `SunriseSirenStudio` directory. It is made with the [Gimp ToolKit](https://gtk.org/) (GTK) in C, making it only available to Linux (and WSL2) users. A `.deb` release is available for Debian/Ubuntu/Mint users. For other distributions, the program has to be compiled from source.
-
-## Why are there no prebuilt firmware binaries?
-The clock's firmware contains sensitive information, which is required to make configuration changes or to flash new firmware. This information is stored in a header file, and the program cannot be compiled without it, therefore obstructing me from providing a prebuilt esptool-ready binary. Furthermore, firmware flashing is mostly done by using `ArduinoOTA`, which is the easiest in the Arduino IDE.
-
-## Firmware setup
-1. Navigate to the `SunriseSirenFirmware` directory.
-2. Copy `Authentication.h.example` to `Authentication.h` and change the values in that file to whatever you like.
-> [!IMPORTANT]
-> Sunrise Siren Studio supports up to 32 characters for the hostname, username and password. Keep that in mind while editing the file.
 
 > [!CAUTION]
 > Sunrise Siren 3000 passwords are NOT encrypted or hashed anywhere. **DO NOT USE A PASSWORD THAT YOU ALREADY USE SOMEWHERE ELSE!**
-3. Launch the Arduino IDE and load the `SunriseSirenFirmware.ino` sketch.
+
+## Firmware setup
+### Using esptool (version 11+ and USB cable only)
+TODO
+
+### Using the Arduino IDE (any version, USB cable or OTA)
+1. Navigate to the `SunriseSirenFirmware` directory.
+2. Launch the Arduino IDE and load the `SunriseSirenFirmware.ino` sketch.
 > [!TIP]
 > You can add the firmware sketch to your Arduino IDE sketchbook with a symlink:
 > ```bash
@@ -27,18 +25,19 @@ The clock's firmware contains sensitive information, which is required to make c
 > ```
 > Note that:
 > - this command assumes you are in the `SunriseSirenFirmware` directory;
-> - the location of your sketchbook may vary.
+> - the location of your sketchbook may vary;
+> - the sketch will open in read-only mode this way.
 >
 > Now, you can load the sketch easier.
 
-4. Ensure that the ESP32 board is installed (if not, check [this tutorial](https://randomnerdtutorials.com/installing-esp32-arduino-ide-2-0/));
-5. Ensure that the required libraries are installed:
+3. Ensure that the ESP32 board is installed (if not, check [this tutorial](https://randomnerdtutorials.com/installing-esp32-arduino-ide-2-0/));
+4. Ensure that the required libraries are installed:
     - **WiFiManager** *(by tzapu)*;
     - **FastLED** *(by Daniel Garcia)*;
     - **NTPClient** *(by Fabrice Weinberg)*;
     - **SHT2x** *(by Rob Tillaart)*.
-6. Go to **Tools** > **Board** and ensure that it is set to "**ESP32 Dev Module**";
-7. Click the Upload button.
+5. Go to **Tools** > **Board** and ensure that it is set to "**ESP32 Dev Module**";
+6. Click the Upload button.
 
 ### Congratulations, the Sunrise Siren 3000 firmware has been flashed successfully!
 <br>
