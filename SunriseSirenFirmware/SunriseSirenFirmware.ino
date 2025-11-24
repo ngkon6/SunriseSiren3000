@@ -3,6 +3,7 @@
 #include <ESPmDNS.h>
 #include <WebServer.h>
 #include <Preferences.h>
+Preferences pref;
 
 #include "Lighting.h"
 #include "Buzzer.h"
@@ -15,6 +16,7 @@
 #include "Authentication.h"
 
 #define FIRMWARE_VERSION 11
+#define HOSTNAME "sunrisesiren3000"
 
 enum State {
   CLOCK,
@@ -27,7 +29,6 @@ enum State {
   COUNTDOWN
 };
 
-Preferences pref;
 WebServer server(80);
 
 SunriseSiren3000Lighting lights;
@@ -38,6 +39,7 @@ SunriseSiren3000NTP ntp;
 SunriseSiren3000SHT21 sht21;
 SunriseSiren3000Countdown countdown;
 SunriseSiren3000Alarm alarms[7];
+SunriseSiren3000Auth auth;
 
 unsigned long ticks = 0;
 unsigned long rebootSignalSentAt = 0;
@@ -126,12 +128,16 @@ void setup() {
   wm.setConfigPortalBlocking(false);
   wm.setConfigPortalTimeout(90);
 
-  if (wm.autoConnect(AP_NAME, OTHER_PASSWORD)) {
+  auth.fetch();
+  String APName = "SunriseSiren3000-";
+  APName.concat(String(ESP.getEfuseMac()).substring(0, 6));
+
+  if (wm.autoConnect(APName.c_str(), auth.getPassword())) {
     if (!MDNS.begin(HOSTNAME)) lights.error();
     MDNS.addService("http", "tcp", 80);
 
     ArduinoOTA.setHostname(HOSTNAME);
-    ArduinoOTA.setPassword(OTHER_PASSWORD);
+    ArduinoOTA.setPassword(auth.getPassword());
     ArduinoOTA.begin();
 
     const char *headerKeys[] = {"User-Agent"};
@@ -139,14 +145,14 @@ void setup() {
 
     server.on("/", HTTP_GET, sendGitHubRedirect);
     server.on("/connect", HTTP_GET, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Yes, a Sunrise Siren 3000 is here!");
     });
     server.on("/status", HTTP_GET, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       String output = "{\n  \"colors\": {\n    \"default\": ";
@@ -179,7 +185,7 @@ void setup() {
       server.send(200, "application/json", output);
     });
     server.on("/information", HTTP_GET, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       String output = "{\n  \"ldr\": ";
@@ -200,7 +206,7 @@ void setup() {
       server.send(200, "application/json", output);
     });
     server.on("/update", HTTP_POST, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       pref.begin("SS3000-Conf", false);
@@ -241,7 +247,7 @@ void setup() {
       server.send(200, "text/plain", "Done!");
     });
     server.on("/custom", HTTP_POST, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       for (int i=0; i<4; i++) {
@@ -256,7 +262,7 @@ void setup() {
       server.send(200, "text/plain", "Done!");
     });
     server.on("/countdown", HTTP_POST, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       if (!server.hasArg("t") && !server.hasArg("pauseable")) {
@@ -282,7 +288,7 @@ void setup() {
       } else server.send(400, "text/plain", "Unable in current state.");
     });
     server.on("/reboot", HTTP_PATCH, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
@@ -290,7 +296,7 @@ void setup() {
       rebootSignalSentAt = millis();
     });
     server.on("/sleep", HTTP_PATCH, []() {
-      if (!server.authenticate(HTTP_USERNAME, HTTP_PASSWORD)) return server.requestAuthentication();
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
@@ -302,6 +308,32 @@ void setup() {
         asleep = true;
         server.send(200, "text/plain", "zzz");
       }
+    });
+    server.on("/set-login", HTTP_POST, []() {
+      if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
+      else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
+
+      server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
+      if (!server.hasArg("user") && !server.hasArg("passwd")) {
+        server.send(400, "text/plain", "Missing arguments.");
+        return;
+      }
+
+      const int userLength = server.arg("user").length();
+      const int passwdLength = server.arg("passwd").length();
+      if (server.arg("user") == DEFAULT_PASSWORD) {
+        server.send(400, "text/plain", "The new password cannot be the same as the default password.");
+        return;
+      } else if (userLength < 2 || userLength > 32) {
+        server.send(400, "text/plain", "Username needs to be at least 2 and at most 32 characters!");
+        return;
+      } else if (passwdLength < 8 || passwdLength > 32) {
+        server.send(400, "text/plain", "Password needs to be at least 8 and at most 32 characters!");
+        return;
+      }
+
+      auth.place(server.arg("user"), server.arg("passwd"));
+      server.send(204, "text/plain", "");
     });
     server.onNotFound([]() {
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);

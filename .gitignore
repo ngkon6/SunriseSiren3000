@@ -1,6 +1,3 @@
-# ignore original authentication file, copy the example instead
-SunriseSirenFirmware/Authentication.h
-
 # ignore VSCode related stuff
 .vscode
 
