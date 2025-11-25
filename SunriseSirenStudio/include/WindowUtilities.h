@@ -55,7 +55,7 @@ void reboot_clock() {
     }
 }
 
-static void reconfigure(GtkWidget *widget, gpointer do_reset) {
+static void reconfigure_studio(GtkWidget *widget, gpointer do_reset) {
     if (do_reset) {
         gint prompt = show_message_dialog(MainWindow, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL, "Reset credentials?", "Note that you will have to sign in again!");
         if (prompt == GTK_RESPONSE_OK) credentials_reset();

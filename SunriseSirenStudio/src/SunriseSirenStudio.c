@@ -262,8 +262,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         LDRMax = gtk_builder_get_object(builder, "LDRMax");
         gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
 
-        Reconfigure = gtk_builder_get_object(builder, "Reconfigure");
-        g_signal_connect(Reconfigure, "clicked", reconfigure, TRUE);
+        ReconfigureStudio = gtk_builder_get_object(builder, "ReconfigureStudio");
+        g_signal_connect(ReconfigureStudio, "clicked", reconfigure_studio, TRUE);
 
         // Information
         FirmwareVersionReading = gtk_builder_get_object(builder, "FirmwareVersionReading");
@@ -324,7 +324,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         g_signal_connect(RetryAfterError, "clicked", reboot_program, NULL);
 
         ReconfigureAfterError = gtk_builder_get_object(builder, "ReconfigureAfterError");
-        g_signal_connect(ReconfigureAfterError, "clicked", reconfigure, FALSE);
+        g_signal_connect(ReconfigureAfterError, "clicked", reconfigure_studio, FALSE);
 
         gtk_application_add_window(app, ConnectErrorWindow);
         gtk_widget_show_all(ConnectErrorWindow);

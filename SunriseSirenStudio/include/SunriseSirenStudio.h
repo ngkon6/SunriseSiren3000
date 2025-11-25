@@ -90,7 +90,8 @@ GtkSpinButton *ClockReturn;
 GtkSpinButton *LDRMin;
 GtkSpinButton *LDRMax;
 
-GtkButton *Reconfigure;
+GtkButton *ReconfigureClock;
+GtkButton *ReconfigureStudio;
 
 // Information
 GtkLabel *FirmwareVersionReading;
