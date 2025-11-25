@@ -126,6 +126,15 @@ GtkButton *CloseAfterIncompatibility;
 GtkButton *RetryAfterIncompatibility;
 GtkButton *DownloadAfterIncompatibility;
 
+// LoginChangeWindow (actually a dialog)
+GtkWindow *LoginChangeWindow;
+GtkEntry *ChangeOldPassword;
+GtkEntry *ChangeNewUsername;
+GtkEntry *ChangeNewPassword;
+GtkEntry *ChangeNewPasswordRetype;
+GtkButton *ChangeCancel;
+GtkButton *ChangeConfirm;
+
 enum TargetWindow;
 
 void* thread_function();

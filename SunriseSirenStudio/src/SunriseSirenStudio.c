@@ -11,7 +11,8 @@ enum TargetWindow {
     WINDOW_MAIN,
     WINDOW_CONNECTION,
     WINDOW_CONNECT_ERROR,
-    WINDOW_INCOMPATIBLE_FIRMWARE
+    WINDOW_INCOMPATIBLE_FIRMWARE,
+    WINDOW_LOGIN_CHANGE
 };
 
 void* thread_function() {
@@ -262,6 +263,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         LDRMax = gtk_builder_get_object(builder, "LDRMax");
         gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
 
+        ReconfigureClock = gtk_builder_get_object(builder, "ReconfigureClock");
+        g_signal_connect(ReconfigureClock, "clicked", reconfigure_clock, NULL);
         ReconfigureStudio = gtk_builder_get_object(builder, "ReconfigureStudio");
         g_signal_connect(ReconfigureStudio, "clicked", reconfigure_studio, TRUE);
 
@@ -281,6 +284,18 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         OnGitHub = gtk_builder_get_object(builder, "OnGitHub");
         g_signal_connect(OnGitHub, "clicked", goto_github, NULL);
 
+        // LoginChangeWindow (actually a dialog opened through ReconfigureClock)
+        LoginChangeWindow = gtk_builder_get_object(builder, "LoginChangeWindow");
+        
+        ChangeOldPassword = gtk_builder_get_object(builder, "ChangeOldPassword");
+        ChangeNewUsername = gtk_builder_get_object(builder, "ChangeNewUsername");
+        ChangeNewPassword = gtk_builder_get_object(builder, "ChangeNewPassword");
+        ChangeNewPasswordRetype = gtk_builder_get_object(builder, "ChangeNewPasswordRetype");
+
+        ChangeCancel = gtk_builder_get_object(builder, "ChangeCancel");
+        g_signal_connect(ChangeCancel, "clicked", cancel_reconfigure_clock, NULL);
+        ChangeConfirm = gtk_builder_get_object(builder, "ChangeConfirm");
+        g_signal_connect(ChangeConfirm, "clicked", cancel_reconfigure_clock, NULL); // todo: don't cancel
 
         gtk_application_add_window(app, MainWindow);
         gtk_widget_show_all(MainWindow);
@@ -350,6 +365,19 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         gtk_application_add_window(app, IncompatibleFirmwareWindow);
         gtk_widget_show_all(IncompatibleFirmwareWindow);
+    } else if (target == WINDOW_LOGIN_CHANGE) {
+        LoginChangeWindow = gtk_builder_get_object(builder, "LoginChangeWindow");
+
+        ChangeOldPassword = gtk_builder_get_object(builder, "ChangeOldPassword");
+        ChangeNewUsername = gtk_builder_get_object(builder, "ChangeNewUsername");
+        ChangeNewPassword = gtk_builder_get_object(builder, "ChangeNewPassword");
+        ChangeNewPasswordRetype = gtk_builder_get_object(builder, "ChangeNewPasswordRetype");
+
+        ChangeConfirm = gtk_builder_get_object(builder, "ChangeConfirm");
+        g_signal_connect(ChangeConfirm, "clicked", goto_github, NULL);
+
+        gtk_application_add_window(app, LoginChangeWindow);
+        gtk_widget_show_all(LoginChangeWindow);
     } else exit(1);
 
     g_object_unref(builder);
