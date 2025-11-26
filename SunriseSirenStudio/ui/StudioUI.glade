@@ -3607,7 +3607,7 @@
   </object>
   <object class="GtkWindow" id="LoginChangeWindow">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Change credentials</property>
+    <property name="title" translatable="yes">Change Sunrise Siren 3000 credentials</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window-position">center-on-parent</property>
@@ -3621,26 +3621,8 @@
         <property name="can-focus">False</property>
         <property name="margin-start">50</property>
         <property name="margin-end">50</property>
-        <property name="margin-top">24</property>
         <property name="margin-bottom">24</property>
         <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Change Sunrise Siren 3000 credentials</property>
-            <property name="justify">center</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-              <attribute name="size" value="15360"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkListBox">
             <property name="visible">True</property>
@@ -3838,6 +3820,21 @@
                 </child>
               </object>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width-request">350</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-bottom">24</property>
+            <property name="label" translatable="yes">On success, you will be redirected to the login window.</property>
+            <property name="justify">center</property>
           </object>
           <packing>
             <property name="expand">False</property>
