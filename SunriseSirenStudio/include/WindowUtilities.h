@@ -425,20 +425,40 @@ static void reconfigure_clock(GtkWidget *widget, gpointer user_data) {
     gchar* new_password = gtk_entry_get_text(ChangeNewPassword);
     gchar* new_password_2 = gtk_entry_get_text(ChangeNewPasswordRetype);
 
+    if (!strlen(old_password) || !strlen(new_username) || !strlen(new_password) || !strlen(new_password_2)) {
+        show_message_dialog(ConnectionWindow, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "Unable to reset credentials", "Please enter all the fields!");
+        return;
+    } else if (!g_str_equal(new_password, new_password_2)) {
+        show_message_dialog(ConnectionWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "The new passwords do not match!");
+        return;
+    }
+
     // step 2: make a request string
     gchar* url[PATH_MAX];
     gchar *post_string[512];
     sprintf(url, "http://%s/set-login", hostname);
-    sprintf(post_string, "user=%s&passwd=%s");
+    sprintf(post_string, "user=%s&passwd=%s", new_username, new_password);
 
     // step 3: yeet a request
     gchar *req = request("POST", url, username, old_password, post_string);
     if (req && request_last_status_code == 204) {
         // successful: wipe saved credentials and restart
+        credentials_reset();
+        reboot_program();
+    } else if (req && request_last_status_code == 401) {
+        show_message_dialog(LoginChangeWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "The old password is incorrect!");
+    } else if (req && strstr(req, "UsernameLength")) {
+        show_message_dialog(LoginChangeWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "Username needs to be at least 2 and at most 32 characters!");
+    } else if (req && strstr(req, "PasswordLength")) {
+        show_message_dialog(LoginChangeWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "Password needs to be at least 8 and at most 32 characters!");
+    } else if (req && strstr(req, "PasswordDefault")) {
+        show_message_dialog(LoginChangeWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "The new password cannot be the same as the default password.");
     } else if (req) {
-        // an error occured
+        // another error occured
+        show_message_dialog(LoginChangeWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "Failed to process the new credentials.\nPlease try again later.");
     } else {
         // request failed
+        show_message_dialog(ConnectionWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to reset credentials", "Failed to connect to your Sunrise Siren 3000.");
     }
 }
 

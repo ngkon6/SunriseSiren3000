@@ -143,7 +143,6 @@ void setup() {
     const char *headerKeys[] = {"User-Agent"};
     server.collectHeaders(headerKeys, 1);
 
-    server.on("/", HTTP_GET, sendGitHubRedirect);
     server.on("/connect", HTTP_GET, []() {
       if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
@@ -321,14 +320,14 @@ void setup() {
 
       const int userLength = server.arg("user").length();
       const int passwdLength = server.arg("passwd").length();
-      if (server.arg("user") == DEFAULT_PASSWORD) {
-        server.send(400, "text/plain", "The new password cannot be the same as the default password.");
+      if (server.arg("passwd") == DEFAULT_PASSWORD) {
+        server.send(400, "text/plain", "PasswordDefault");
         return;
       } else if (userLength < 2 || userLength > 32) {
-        server.send(400, "text/plain", "Username needs to be at least 2 and at most 32 characters!");
+        server.send(400, "text/plain", "UsernameLength");
         return;
       } else if (passwdLength < 8 || passwdLength > 32) {
-        server.send(400, "text/plain", "Password needs to be at least 8 and at most 32 characters!");
+        server.send(400, "text/plain", "PasswordLength");
         return;
       }
 
