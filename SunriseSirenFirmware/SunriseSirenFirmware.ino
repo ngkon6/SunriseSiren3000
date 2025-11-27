@@ -337,7 +337,7 @@ void setup() {
     });
     server.onNotFound([]() {
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
-      server.send(404, "text/plain", "404 Not Found");
+      sendGitHubRedirect();
     });
     server.begin();
 
