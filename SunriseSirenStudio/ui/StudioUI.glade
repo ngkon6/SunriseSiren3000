@@ -2050,7 +2050,8 @@
                     <property name="sensitive">False</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">26</property>
-                    <property name="label" translatable="yes">Countdowns can also be stopped by holding the button down or by an alarm.</property>
+                    <property name="label" translatable="yes">Countdowns can also be stopped by enabling custom mode, saving settings, holding the button down or an alarm.</property>
+                    <property name="selectable">True</property>
                     <attributes>
                       <attribute name="style" value="italic"/>
                     </attributes>
