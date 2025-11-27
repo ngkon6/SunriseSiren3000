@@ -55,12 +55,9 @@ void reboot_clock() {
     }
 }
 
-static void reconfigure_clock(GtkWidget *widget, gpointer builder) {
-    gtk_widget_show(LoginChangeWindow);
-}
-
-static void cancel_reconfigure_clock(GtkWidget *widget, gpointer user_data) {
-    gtk_widget_hide(LoginChangeWindow);
+static void login_change_dialog(GtkWidget *widget, gpointer state) {
+    if (state) gtk_widget_show(LoginChangeWindow);
+    else gtk_widget_hide(LoginChangeWindow);
 }
 
 static void reconfigure_studio(GtkWidget *widget, gpointer do_reset) {
@@ -419,6 +416,32 @@ static void create_connection(GtkWidget *widget, gpointer user_data) {
         show_message_dialog(ConnectionWindow, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Unable to connect", "Failed to connect to your Sunrise Siren 3000.");
     }
 }
+
+// LoginChangeWindow (actually a dialog here too)
+static void reconfigure_clock(GtkWidget *widget, gpointer user_data) {
+    // step 1: collect all data
+    gchar* old_password = gtk_entry_get_text(ChangeOldPassword);
+    gchar* new_username = gtk_entry_get_text(ChangeNewUsername);
+    gchar* new_password = gtk_entry_get_text(ChangeNewPassword);
+    gchar* new_password_2 = gtk_entry_get_text(ChangeNewPasswordRetype);
+
+    // step 2: make a request string
+    gchar* url[PATH_MAX];
+    gchar *post_string[512];
+    sprintf(url, "http://%s/set-login", hostname);
+    sprintf(post_string, "user=%s&passwd=%s");
+
+    // step 3: yeet a request
+    gchar *req = request("POST", url, username, old_password, post_string);
+    if (req && request_last_status_code == 204) {
+        // successful: wipe saved credentials and restart
+    } else if (req) {
+        // an error occured
+    } else {
+        // request failed
+    }
+}
+
 
 // key event handlers
 ctrl_pressed = FALSE;

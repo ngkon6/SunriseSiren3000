@@ -264,7 +264,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
 
         ReconfigureClock = gtk_builder_get_object(builder, "ReconfigureClock");
-        g_signal_connect(ReconfigureClock, "clicked", reconfigure_clock, NULL);
+        g_signal_connect(ReconfigureClock, "clicked", login_change_dialog, TRUE);
         ReconfigureStudio = gtk_builder_get_object(builder, "ReconfigureStudio");
         g_signal_connect(ReconfigureStudio, "clicked", reconfigure_studio, TRUE);
 
@@ -293,9 +293,9 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         ChangeNewPasswordRetype = gtk_builder_get_object(builder, "ChangeNewPasswordRetype");
 
         ChangeCancel = gtk_builder_get_object(builder, "ChangeCancel");
-        g_signal_connect(ChangeCancel, "clicked", cancel_reconfigure_clock, NULL);
+        g_signal_connect(ChangeCancel, "clicked", login_change_dialog, FALSE);
         ChangeConfirm = gtk_builder_get_object(builder, "ChangeConfirm");
-        g_signal_connect(ChangeConfirm, "clicked", cancel_reconfigure_clock, NULL); // todo: don't cancel
+        g_signal_connect(ChangeConfirm, "clicked", reconfigure_clock, NULL); // todo: don't cancel
 
         gtk_application_add_window(app, MainWindow);
         gtk_widget_show_all(MainWindow);
