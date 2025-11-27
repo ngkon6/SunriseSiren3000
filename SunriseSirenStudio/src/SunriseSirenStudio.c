@@ -285,7 +285,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         // LoginChangeWindow (actually a dialog opened through ReconfigureClock)
         LoginChangeWindow = gtk_builder_get_object(builder, "LoginChangeWindow");
-        
+
         ChangeOldPassword = gtk_builder_get_object(builder, "ChangeOldPassword");
         ChangeNewUsername = gtk_builder_get_object(builder, "ChangeNewUsername");
         ChangeNewPassword = gtk_builder_get_object(builder, "ChangeNewPassword");
