@@ -5,8 +5,8 @@
 *.glade~
 \#*.glade#
 
-# ignore Sunrise Siren Studio builds
-SunriseSirenStudio/build/*
+# ignore firmware and Sunrise Siren Studio builds
+*/build
 
 # ignore compiled GSchemas
 gschemas.compiled
