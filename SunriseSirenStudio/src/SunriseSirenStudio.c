@@ -11,8 +11,7 @@ enum TargetWindow {
     WINDOW_MAIN,
     WINDOW_CONNECTION,
     WINDOW_CONNECT_ERROR,
-    WINDOW_INCOMPATIBLE_FIRMWARE,
-    WINDOW_LOGIN_CHANGE
+    WINDOW_INCOMPATIBLE_FIRMWARE
 };
 
 void* thread_function() {
@@ -282,7 +281,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         AboutProgram = gtk_builder_get_object(builder, "AboutProgram");
         g_signal_connect(AboutProgram, "clicked", show_about_dialog, NULL);
         OnGitHub = gtk_builder_get_object(builder, "OnGitHub");
-        g_signal_connect(OnGitHub, "clicked", goto_github, NULL);
+        g_signal_connect(OnGitHub, "clicked", goto_github, "");
 
         // LoginChangeWindow (actually a dialog opened through ReconfigureClock)
         LoginChangeWindow = gtk_builder_get_object(builder, "LoginChangeWindow");
@@ -361,23 +360,10 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         g_signal_connect(RetryAfterIncompatibility, "clicked", reboot_program, NULL);
 
         DownloadAfterIncompatibility = gtk_builder_get_object(builder, "DownloadAfterIncompatibility");
-        g_signal_connect(DownloadAfterIncompatibility, "clicked", goto_github, NULL);
+        g_signal_connect(DownloadAfterIncompatibility, "clicked", goto_github, "/releases");
 
         gtk_application_add_window(app, IncompatibleFirmwareWindow);
         gtk_widget_show_all(IncompatibleFirmwareWindow);
-    } else if (target == WINDOW_LOGIN_CHANGE) {
-        LoginChangeWindow = gtk_builder_get_object(builder, "LoginChangeWindow");
-
-        ChangeOldPassword = gtk_builder_get_object(builder, "ChangeOldPassword");
-        ChangeNewUsername = gtk_builder_get_object(builder, "ChangeNewUsername");
-        ChangeNewPassword = gtk_builder_get_object(builder, "ChangeNewPassword");
-        ChangeNewPasswordRetype = gtk_builder_get_object(builder, "ChangeNewPasswordRetype");
-
-        ChangeConfirm = gtk_builder_get_object(builder, "ChangeConfirm");
-        g_signal_connect(ChangeConfirm, "clicked", goto_github, NULL);
-
-        gtk_application_add_window(app, LoginChangeWindow);
-        gtk_widget_show_all(LoginChangeWindow);
     } else exit(1);
 
     g_object_unref(builder);

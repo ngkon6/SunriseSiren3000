@@ -239,8 +239,11 @@ void fetch_information() {
     }
 }
 
-void goto_github() {
-    system("xdg-open https://github.com/ngkon6/SunriseSiren3000");
+static void goto_github(GtkWidget *widget, gpointer pathname) {
+    gchar* cmd[75];
+    sprintf(cmd, "xdg-open https://github.com/ngkon6/SunriseSiren3000%s", pathname);
+
+    system(cmd);
 }
 
 // save actions
