@@ -119,7 +119,7 @@ int getBrightness() {
   if (buzzer.enabled) payload += ALARM_BRIGHTNESS_INCREMENT;
   payload -= sleepLevel;
 
-  return payload;
+  return max(payload, 0);
 }
 
 void setup() {
