@@ -13,10 +13,21 @@ This repository consists of two relevant parts of the clock:
 
 ## Firmware setup
 ### Using esptool (version 11+ and USB cable only)
-TODO
+1. Download the latest firmware binary (the release file ending with `.bin`).
+2. Check which serial port the ESP32 of the Sunrise Siren 3000 is connected to (`/dev/ttyUSB0` in this example) and where you saved the `.bin` download (`PATH-TO-BINARY.bin` in this example).
+> [!NOTE]
+> If you want to erase the username and password stored on the Sunrise Siren 3000, erase the flash memory first:
+> ```bash
+> esptool -p /dev/ttyUSB0 -b 115200 --chip esp32 erase_flash
+> ```
+
+3. Run the following command:
+    ```bash
+    esptool -p /dev/ttyUSB0 -b 115200 --chip esp32 write_flash 0x0 PATH-TO-BINARY.bin
+    ```
 
 ### Using the Arduino IDE (any version, USB cable or OTA)
-1. Navigate to the `SunriseSirenFirmware` directory.
+1. Clone the repository and navigate to the `SunriseSirenFirmware` directory.
 2. Launch the Arduino IDE and load the `SunriseSirenFirmware.ino` sketch.
 > [!TIP]
 > You can add the firmware sketch to your Arduino IDE sketchbook with a symlink:
@@ -36,8 +47,9 @@ TODO
     - **FastLED** *(by Daniel Garcia)*;
     - **NTPClient** *(by Fabrice Weinberg)*;
     - **SHT2x** *(by Rob Tillaart)*.
-5. Go to **Tools** > **Board** and ensure that it is set to "**ESP32 Dev Module**";
-6. Click the Upload button.
+5. Go to **Tools** > **Board** and ensure that it is set to "**ESP32 Dev Module**".
+6. Ensure that the correct hostname (OTA) or serial port (USB) is selected.
+7. Click the Upload button.
 
 ### Congratulations, the Sunrise Siren 3000 firmware has been flashed successfully!
 <br>
@@ -76,6 +88,14 @@ With `apt`, those can be installed by running:
 5. To launch the program, simply search for "Sunrise Siren Studio" in the search bar of your computer!
 
 ### Congratulations, Sunrise Siren Studio is up and running now!
+
+## Connecting for the first time
+First, ensure that your Sunrise Siren Studio device is on the same Wi-Fi network as the Sunrise Siren 3000.
+- Hostname: `sunrisesiren3000.local` (if mDNS does not work for whatever reason, use the local IP)
+- Username: `clock`
+- Password: `beepbeepbeep`
+
+Once signed in, you can change the username and password with the 'Change Sunrise Siren 3000 credentials' option in the Settings menu.
 <br>
 
 ## Sunrise Siren Studio uninstallation
