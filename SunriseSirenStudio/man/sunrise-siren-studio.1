@@ -1,4 +1,4 @@
-.TH "sunrise\-siren\-studio" 1 "05 Sep 2025" "v2.0.0" "Sunrise Siren Studio"
+.TH "sunrise\-siren\-studio" 1 "28 Nov 2025" "v2.1.0" "Sunrise Siren Studio"
 .SH "NAME"
 Sunrise Siren Studio \- Control program for Sunrise Siren 3000
 
@@ -54,6 +54,8 @@ Set a countdown clock on your Sunrise Siren 3000!
 \- Additionally, allow pausing/resuming the countdown with a button press.
 .TP
 \- As of v2.0.0, countdowns can be displayed in two formats, mm:ss and ssss.
+.TP
+\- In mm:ss notation, the countdown time is limited to 5999 seconds, otherwise it is limited to 9999 seconds.
 
 .SS Custom mode
 Even better than a countdown: the ability to make your Sunrise Siren 3000 display whatever you want!
@@ -75,14 +77,28 @@ Miscellaneous settings:
 .TP
 \- Always return to clock after the specified time when visiting the temperature, humidity and alarm preview.
 .TP
-\- LDR mapping boundaries (the LDR value will be constrained between these before being mapped to the LED brightness).
+\- LDR mapping boundaries (the LDR value will be constrained between these before being mapped to the NeoPixel brightness).
 .TP
-\- Reset Sunrise Siren Studio credentials. Be careful with this, this will erase the current credentials forever!
+\- Change Sunrise Siren 3000 credentials. This will change the login username and password \fBof the clock itself\fR.
+.br
+Be careful with this, this will erase the current credentials forever!
+.TP
+\- Reset Sunrise Siren Studio credentials. This will remove the hostname, username and password from dconf, \fBonly on this machine\fR.
+.br
+Be careful with this as well!
 
 .SS Information
 Some wonderful information:
 .TP
-\- Firmware version of the Sunrise Siren 3000. Sunrise Siren Studio will not launch when the clock firmware is too old.
+\- Firmware version of the Sunrise Siren 3000.
+.br
+Note that there is a main version (on the left of the dot) and a subversion (on the right of the dot).
+.TP
+    \- The main version belongs to a specific version of Sunrise Siren Studio. If these versions do not match, Sunrise Siren Studio will not start.
+.TP
+    \- The subversion is meant for minor firmware fixes. Sunrise Siren Studio does not validate the subversion anywhere.
+.TP
+\- NeoPixel brightness. This one is quite self explanatory. 0 means that the Sunrise Siren 3000 is in sleep mode.
 .TP
 \- LDR value. The raw value that the ESP32 reads from the LDR. 0 in broad daylight, 4095 in near total darkness.
 .TP
@@ -90,7 +106,9 @@ Some wonderful information:
 .TP
 \- SHT21 humidity value. The raw and mapped value that the ESP32 reads from the SHT21 sensor.
 .TP
-\- And finally, a beautiful dialog showing very interesting information about Sunrise Siren Studio.
+\- A beautiful dialog showing very interesting information about Sunrise Siren Studio.
+.TP
+\- And finally, button that will bring you to the fabulous GitHub page.
 
 .SH "AUTHOR"
 Sunrise Siren Studio and the ESP32 firmware are proudly made by ngkon.
@@ -101,4 +119,4 @@ Bugs in both Sunrise Siren Studio and the ESP32 firmware can be reported on the 
 https://github.com/ngkon6/SunriseSiren3000/issues
 
 .SH "COPYRIGHT"
-© 2025 ngkon. All rights reserved. The Sunrise Siren 3000 project is licensed under the GNU General Public License v3.
+© 2025 ngkon. All rights reserved. The Sunrise Siren project is licensed under the GNU General Public License v3.

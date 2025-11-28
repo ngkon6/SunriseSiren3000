@@ -518,7 +518,7 @@
             <property name="margin-start">8</property>
             <property name="margin-end">8</property>
             <property name="margin-top">4</property>
-            <property name="label" translatable="yes">Your firmware is too old to use this version of Sunrise Siren Studio.</property>
+            <property name="label" translatable="yes">Your firmware is incompatible with this version of Sunrise Siren Studio.</property>
             <property name="wrap">True</property>
             <property name="width-chars">0</property>
             <property name="max-width-chars">63</property>
@@ -535,7 +535,7 @@
             <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="margin-start">8</property>
-            <property name="label" translatable="yes">Please flash the newest firmware to your Sunrise Siren 3000.</property>
+            <property name="label" translatable="yes">Ensure that both the firmware and this program are up to date.</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -595,7 +595,7 @@
             </child>
             <child>
               <object class="GtkButton" id="DownloadAfterIncompatibility">
-                <property name="label" translatable="yes">Get newest firmware</property>
+                <property name="label" translatable="yes">Get newest releases</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
@@ -2327,7 +2327,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">The LDR value read by the clock will be constrained between the specified lower and upper values, and then mapped to the clock brightness.</property>
+                                <property name="tooltip-text" translatable="yes">The LDR value read by the clock will be constrained between the specified lower and upper values, and then mapped to the NeoPixel brightness.</property>
                                 <property name="margin-left">8</property>
                                 <property name="margin-start">8</property>
                                 <property name="label" translatable="yes">LDR mapping boundaries</property>

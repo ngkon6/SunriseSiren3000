@@ -208,13 +208,13 @@ void fetch_information() {
 
     if (information_response) {
         if (clock_information = json_tokener_parse(information_response)) {
-            gchar *fw_version_label[5];
+            gchar *fw_version_label[8];
             gchar *brightness_label[3];
             gchar *ldr_label[4];
             gchar *temperature_label[20];
             gchar *humidity_label[20];
 
-            sprintf(fw_version_label, "%i", request_last_firmware_version);
+            sprintf(fw_version_label, "%i.%i", request_last_firmware_version, json_object_get_int(json_object_object_get(clock_information, "subversion")));
             sprintf(brightness_label, "%d", json_object_get_int(json_object_object_get(clock_information, "brightness")));
             sprintf(ldr_label, "%d", json_object_get_int(json_object_object_get(clock_information, "ldr")));
             sprintf(

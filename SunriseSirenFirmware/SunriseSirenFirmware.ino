@@ -16,6 +16,7 @@ Preferences pref;
 #include "Authentication.h"
 
 #define FIRMWARE_VERSION 11
+#define FIRMWARE_SUBVERSION 0
 #define HOSTNAME "sunrisesiren3000"
 
 enum State {
@@ -187,7 +188,9 @@ void setup() {
       if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
-      String output = "{\n  \"ldr\": ";
+      String output = "{\n  \"subversion\": ";
+      output.concat(String(FIRMWARE_SUBVERSION));
+      output.concat(",\n  \"ldr\": ");
       output.concat(ldr.rawValue);
       output.concat(",\n  \"brightness\": ");
       output.concat(getBrightness());

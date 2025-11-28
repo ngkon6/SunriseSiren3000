@@ -38,7 +38,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         if (status_response) {
             if (clock_status = json_tokener_parse(status_response)) {
-                if (request_last_firmware_version >= MINIMAL_FIRMWARE_VERSION) {
+                if (request_last_firmware_version == REQUIRED_FIRMWARE_VERSION) {
                     // all good!
                     target = WINDOW_MAIN;
                 } else {
@@ -347,8 +347,8 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
 
         gchar *versions[80];
         sprintf(versions,
-            "Current clock firmware version: <b>%d</b>\nMinimum requirement for %s: <b>%d</b>",
-            request_last_firmware_version, STUDIO_VERSION, MINIMAL_FIRMWARE_VERSION
+            "Current clock firmware version: <b>%d</b>\nRequirement for %s: <b>%d</b>",
+            request_last_firmware_version, STUDIO_VERSION, REQUIRED_FIRMWARE_VERSION
         );
         IncompatibilityLabel = gtk_builder_get_object(builder, "IncompatibilityLabel");
         gtk_label_set_label(IncompatibilityLabel, versions);
