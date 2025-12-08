@@ -15,7 +15,7 @@ Preferences pref;
 #include "Button.h"
 #include "Authentication.h"
 
-#define FIRMWARE_VERSION 11
+#define FIRMWARE_VERSION 12
 #define FIRMWARE_SUBVERSION 0
 #define HOSTNAME "sunrisesiren3000"
 
