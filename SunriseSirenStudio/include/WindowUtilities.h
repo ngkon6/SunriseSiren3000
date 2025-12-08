@@ -472,6 +472,9 @@ ctrl_pressed = FALSE;
 static void main_window_key_press(GtkWidget *widget, GdkEventKey *e, gpointer data) {
     if (e->keyval == 65507) ctrl_pressed = TRUE; // Left Ctrl
     else if (e->keyval == 65307) go_to(widget, "MainMenu"); // Esc
+    else if (e->keyval == 82 && ctrl_pressed) reboot_program(); // R
+    else if (e->keyval == 114 && ctrl_pressed) reboot_clock(); // r
+    else if (e->keyval == 119 && ctrl_pressed) quit(); // w
     else if (e->keyval == 115 && ctrl_pressed) { // s
         universal_confirm(widget, data);
         ctrl_pressed = FALSE;
