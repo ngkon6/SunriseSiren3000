@@ -5,3 +5,4 @@ _and firmware changes where necessary_
 - [ ] Customizable duty cycle for buzzer
 - [ ] Some 'apply to all' feature for colors in custom mode
 - [ ] Set LoginChangeWindow label background to destructive
+- [x] Add .editorconfig
