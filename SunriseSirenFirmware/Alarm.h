@@ -14,9 +14,11 @@ class SunriseSiren3000Alarm {
     bool tripping; // whether the alarm is active/beeping, caused by starting and snoozing
     bool activity; // every other second or so, whether the LEDs and buzzer should flash/beep
 
-    bool update(String now, unsigned int snoozeInterval) {
+    bool update(String now, unsigned int snoozeInterval, float dutyCycle) {
       if (!this->enabled) return false;
+
       bool justTripped = false;
+      int mappedDutyCycle = dutyCycle * ALARM_ACTIVITY_PERIOD;
 
       if (now == this->time && !this->timePassed) {
         this->timePassed = true;
@@ -29,7 +31,7 @@ class SunriseSiren3000Alarm {
 
       unsigned long trippingSince = millis() - this->timePassedAt;
       this->tripping = (this->timePassed && !this->stopped && !this->snoozed);
-      this->activity = (this->tripping && trippingSince % ALARM_ACTIVITY_PERIOD < ALARM_ACTIVITY_PERIOD / 2);
+      this->activity = (this->tripping && trippingSince % ALARM_ACTIVITY_PERIOD < mappedDutyCycle);
 
       return justTripped;
     }

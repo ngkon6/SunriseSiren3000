@@ -53,6 +53,7 @@ unsigned int snoozeInterval;
 unsigned int clockReturn;
 bool leadingZero;
 bool enableDST;
+int buzzerDutyCycle;
 int alarmsEnabled;
 String alarmTimes;
 int alarmUpcomingIndex;
@@ -83,6 +84,7 @@ void loadSettings() {
   enableDST = pref.getBool("enable-dst");
   alarmsEnabled = pref.getInt("alarms-enabled");
   alarmTimes = pref.getString("alarm-times");
+  buzzerDutyCycle = pref.getInt("duty-cycle");
   snoozeInterval = pref.getInt("snooze-t");
   ldr.minValue = pref.getInt("ldr-min");
   ldr.maxValue = pref.getInt("ldr-max");
@@ -171,6 +173,8 @@ void setup() {
       output.concat(enableDST ? "true" : "false");
       output.concat(",\n  \"clockReturn\": ");
       output.concat(clockReturn / 1000);
+      output.concat(",\n  \"buzzerDutyCycle\": ");
+      output.concat(buzzerDutyCycle);
       output.concat(",\n  \"snoozeInterval\": ");
       output.concat(snoozeInterval / 1000);
       output.concat(",\n  \"asleep\": ");
@@ -224,6 +228,8 @@ void setup() {
         pref.putBool("leading-zero", server.arg("leading-zero").toInt() == 1);
       if (server.hasArg("enable-dst") && server.arg("enable-dst").toInt() != pref.getBool("enable-dst"))
         pref.putBool("enable-dst", server.arg("enable-dst").toInt() == 1);
+      if (server.hasArg("duty-cycle") && server.arg("duty-cycle").toInt() != pref.getInt("duty-cycle"))
+        pref.putInt("duty-cycle", server.arg("duty-cycle").toInt());
 
       if (server.hasArg("alarms-enabled") && server.arg("alarms-enabled").toInt() != pref.getInt("alarms-enabled"))
         pref.putInt("alarms-enabled", server.arg("alarms-enabled").toInt());
@@ -384,12 +390,12 @@ void loop() {
     ntp.update();
     sht21.update();
   }
-  countdown.update();
+  countdown.update(constrain(buzzerDutyCycle, 25, 90));
 
   String t = ntp.getTime();
   int d = ntp.getDay();
 
-  bool alarmJustTripped = alarms[d].update(t, snoozeInterval);
+  bool alarmJustTripped = alarms[d].update(t, snoozeInterval, constrain(buzzerDutyCycle, 25, 90) / 100.0);
   bool alarmAlreadyTrippedToday = (t >= alarms[d].time);
   alarmUpcomingIndex = alarmAlreadyTrippedToday ? ntp.getNextDay() : d;
 

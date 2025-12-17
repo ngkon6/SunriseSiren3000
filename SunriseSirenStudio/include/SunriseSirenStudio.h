@@ -85,6 +85,7 @@ GtkCheckButton *CustomAutoIncrement;
 // Settings
 GtkSwitch *EnableLeadingZero;
 GtkSwitch *EnableDST;
+GtkSpinButton *BuzzerDutyCycle;
 GtkSpinButton *SnoozeInterval;
 GtkSpinButton *ClockReturn;
 GtkSpinButton *LDRMin;

@@ -38,7 +38,7 @@ class SunriseSiren3000Countdown {
       this->activity = false;
     }
 
-    void update() {
+    void update(int activityDutyCycle) {
       this->now = millis();
 
       if (!this->started) {
@@ -58,7 +58,7 @@ class SunriseSiren3000Countdown {
         this->ended = true;
         this->currentTime = 0;
       }
-      this->activity = (this->ended && this->elapsed < 500);
+      this->activity = (this->ended && this->elapsed < (activityDutyCycle / 100.0 * 1000));
 
       this->lastNow = this->now;
     }
