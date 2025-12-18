@@ -94,6 +94,8 @@ With `apt`, those can be installed by running:
     ```bash
     make deb
     ```
+    > The `.deb` file will be built for the architecture of the computer building it only.
+    > I currently do not provide ways to cross compile the program!
 5. To launch the program, simply search for "Sunrise Siren Studio" in the search bar of your computer!
 
 ### Congratulations, Sunrise Siren Studio is up and running now!
