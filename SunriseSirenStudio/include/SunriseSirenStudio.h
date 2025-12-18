@@ -37,7 +37,7 @@ GtkLabel *HostnameLabel;
 GtkButton *SleepClock;
 GtkButton *RebootClock;
 GtkButton *UniversalConfirm;
-GtkStackSwitcher *TestingStackSwitcher;CustomColor_Colon
+GtkStackSwitcher *TestingStackSwitcher;
 
 // Main menu
 GtkButton *GotoColors;
