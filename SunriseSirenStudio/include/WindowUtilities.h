@@ -120,6 +120,32 @@ static void invert_all_custom_pixels(GtkWidget *widget, gpointer user_data) {
     ctrl_pressed = FALSE;
 }
 
+static void check_set_custom_color_to_black(GtkWidget *widget, GdkEventButton *e, gpointer user_data) {
+    if (e->button != 3) { // right click only
+        g_signal_emit_by_name(widget, "clicked", NULL);
+        return;
+    }
+
+    GdkRGBA *black = g_new(GdkRGBA, 1);
+    black->alpha = 1;
+
+    gtk_color_chooser_set_rgba(widget, black);
+
+}
+
+static void check_apply_custom_color_to_all(GtkWidget *widget, GdkEventButton *e, gpointer user_data) {
+    if (e->button != 3) { // right click only
+        g_signal_emit_by_name(widget, "clicked", NULL);
+        return;
+    }
+
+    GdkRGBA *source = g_new(GdkRGBA, 1);
+    gtk_color_chooser_get_rgba(widget, &*source);
+
+    for (int i=0; i<4; i++) gtk_color_chooser_set_rgba(CustomColor[i], source);
+    gtk_color_chooser_set_rgba(CustomColor_Colon, source);
+}
+
 static void set_custom_digit(GtkWidget *widget, gpointer user_data) {
     gint target_index = user_data ? user_data - 1 : gtk_spin_button_get_value_as_int(CustomDigitApplyIndex) - 1;
     gint custom_number = 0;

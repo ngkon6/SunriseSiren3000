@@ -2,7 +2,7 @@
 _and firmware changes where necessary_
 
 - [x] Ctrl+W close keybind (and reboot keybinds)
-- [ ] Customizable duty cycle for buzzer
-- [ ] Some 'apply to all' feature for colors in custom mode
+- [x] Customizable duty cycle for buzzer
+- [x] Some 'apply to all' feature for colors in custom mode
 - [x] Set LoginChangeWindow label background to warning
 - [x] Add .editorconfig

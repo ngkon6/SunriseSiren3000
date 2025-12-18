@@ -206,6 +206,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
             custom_color->alpha = 1;
             gtk_color_chooser_set_rgba(CustomColor[i], custom_color);
 
+            g_signal_connect(CustomColor[i], "button-press-event", check_apply_custom_color_to_all, NULL);
             g_signal_connect(CustomDigit[i], "changed", validate_custom_entry_sensitive, CustomDigitEntry[i]);
         }
 
@@ -216,6 +217,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         custom_colon->blue = default_color->blue;
         custom_colon->alpha = 1;
         gtk_color_chooser_set_rgba(CustomColor_Colon, custom_colon);
+        g_signal_connect(CustomColor_Colon, "button-press-event", check_set_custom_color_to_black, NULL);
 
         for (int i=0; i<21; i++) {
             gchar* pixel_id[22];
