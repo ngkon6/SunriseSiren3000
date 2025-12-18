@@ -11,6 +11,15 @@ This repository consists of two relevant parts of the clock:
 > [!CAUTION]
 > Sunrise Siren 3000 passwords are NOT encrypted or hashed anywhere. **DO NOT USE A PASSWORD THAT YOU ALREADY USE SOMEWHERE ELSE!**
 
+## Hardware connections
+|Component|I/O pin|
+|-------|-------|
+|NeoPixels|**32**|
+|LDR|**35**|
+|Button|**26**|
+|Buzzer|**18**|
+|SHT21 sensor|**21** (SDA) and **22** (SCL)|
+
 ## Firmware setup
 ### Using esptool (version 11+ and USB cable only)
 1. Download the latest firmware binary (the release file ending with `.bin`).
@@ -88,6 +97,11 @@ With `apt`, those can be installed by running:
 5. To launch the program, simply search for "Sunrise Siren Studio" in the search bar of your computer!
 
 ### Congratulations, Sunrise Siren Studio is up and running now!
+> [!TIP]
+> To discover all the ins and outs of Sunrise Siren Studio, take a look at the manpage:
+> ```bash
+> man sunrise-siren-studio
+> ```
 
 ## Connecting for the first time
 First, ensure that your Sunrise Siren Studio device is on the same Wi-Fi network as the Sunrise Siren 3000.
