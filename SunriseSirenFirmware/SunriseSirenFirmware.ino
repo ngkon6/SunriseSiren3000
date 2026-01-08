@@ -16,7 +16,7 @@ Preferences pref;
 #include "Authentication.h"
 
 #define FIRMWARE_VERSION 12
-#define FIRMWARE_SUBVERSION 0
+#define FIRMWARE_SUBVERSION 1
 #define HOSTNAME "sunrisesiren3000"
 
 enum State {
@@ -47,6 +47,7 @@ unsigned long rebootSignalSentAt = 0;
 unsigned long lastStateCycledAt = 0;
 enum State currentState = CLOCK;
 bool asleep = false;
+bool alarmActivity = false;
 int sleepLevel = 0; // 0 = not asleep, MAX_BRIGHTNESS = zzz
 
 unsigned int snoozeInterval;
@@ -117,9 +118,9 @@ int getDigit(float value, int exponent) {
   return (int)(value + 0.5) / (int) pow(10, exponent) % 10;
 }
 
-int getBrightness() {
+int getBrightness(bool highlight = false) {
   int payload = ldr.averagedValue;
-  if (buzzer.enabled) payload += ALARM_BRIGHTNESS_INCREMENT;
+  if (highlight) payload += ALARM_BRIGHTNESS_INCREMENT;
   payload -= sleepLevel;
 
   return max(payload, 0);
@@ -197,7 +198,7 @@ void setup() {
       output.concat(",\n  \"ldr\": ");
       output.concat(ldr.rawValue);
       output.concat(",\n  \"brightness\": ");
-      output.concat(getBrightness());
+      output.concat(getBrightness(alarmActivity));
       output.concat(",\n  \"temperature\": {\n    \"raw\": ");
       output.concat(sht21.rawTemperature);
       output.concat(",\n    \"translated\": ");
@@ -383,6 +384,7 @@ void loop() {
   } else {
     if (--sleepLevel <= 0) sleepLevel = 0;
   }
+  alarmActivity = false;
 
   ldr.update();
   button.update();
@@ -451,13 +453,14 @@ void loop() {
   if (currentState == CLOCK) {
     if (countdown.started) countdown.stop();
 
-    CRGB clockColor = (alarms[d].activity) ? lights.highlightColor : lights.defaultColor;
+    alarmActivity = (alarms[d].activity && !alarms[d].quiet);
+    CRGB clockColor = alarmActivity ? lights.highlightColor : lights.defaultColor;
     CRGB colonColor = (!alarms[d].snoozed || millis() % 1000 < 750) ? clockColor : CRGB::Black;
 
     lights.showTime(t, clockColor, leadingZero);
     lights.setColonPoint(colonColor);
 
-    buzzer.enabled = alarms[d].activity;
+    buzzer.enabled = alarmActivity;
     buzzer.update();
   } else if (currentState == TEMPERATURE) {
     lights.showSingleDigit(0, getDigit(sht21.temperature, 1), lights.defaultColor);
@@ -516,7 +519,7 @@ void loop() {
     buzzer.update();
   }
 
-  lights.update(getBrightness());
+  lights.update(getBrightness(alarmActivity));
 
   delay(20);
   ticks++;
