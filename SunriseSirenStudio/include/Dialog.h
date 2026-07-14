@@ -22,7 +22,7 @@ void show_about_dialog() {
         "version", STUDIO_VERSION,
         "logo-icon-name", "sunrise-siren-studio",
         "license-type", GTK_LICENSE_GPL_3_0,
-        "copyright", "© 2025 ngkon. All rights reserved.",
+        "copyright", "© 2026 ngkon. All rights reserved.",
         "authors", credits,
         "artists", credits,
         "documenters", credits,

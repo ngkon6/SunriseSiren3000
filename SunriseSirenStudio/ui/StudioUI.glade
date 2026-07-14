@@ -1095,7 +1095,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="vexpand">True</property>
-                    <property name="label" translatable="yes">© 2025 ngkon. All rights reserved.</property>
+                    <property name="label" translatable="yes">© 2026 ngkon. All rights reserved.</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
