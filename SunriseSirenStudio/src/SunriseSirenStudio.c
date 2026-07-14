@@ -267,6 +267,23 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         LDRMax = gtk_builder_get_object(builder, "LDRMax");
         gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
 
+        EnableDailyReboot = gtk_builder_get_object(builder, "EnableDailyReboot");
+        g_signal_connect(EnableDailyReboot, "state-set", validate_dailyreboot_time_sensitivity, NULL);
+
+        DailyRebootHour = gtk_builder_get_object(builder, "DailyRebootHour");
+        DailyRebootMinute = gtk_builder_get_object(builder, "DailyRebootMinute");
+
+        gchar* daily_reboot_time = json_object_get_string(json_object_object_get(json_object_object_get(clock_status, "dailyReboot"), "time"));
+        gchar daily_reboot_hour[3] = {daily_reboot_time[0], daily_reboot_time[1], '\0'};
+        gchar daily_reboot_minute[3] = {daily_reboot_time[2], daily_reboot_time[3], '\0'};
+
+        gtk_spin_button_set_adjustment(DailyRebootHour, gtk_adjustment_new(atoi(daily_reboot_hour), 0, 24, 1, 1, 1));
+        gtk_spin_button_set_adjustment(DailyRebootMinute, gtk_adjustment_new(atoi(daily_reboot_minute), 0, 60, 1, 1, 1));
+
+        gboolean daily_reboot = json_object_get_boolean(json_object_object_get(json_object_object_get(clock_status, "dailyReboot"), "on"));
+        gtk_switch_set_active(EnableDailyReboot, daily_reboot);
+        validate_dailyreboot_time_sensitivity(EnableDailyReboot, daily_reboot, NULL);
+
         ReconfigureClock = gtk_builder_get_object(builder, "ReconfigureClock");
         g_signal_connect(ReconfigureClock, "clicked", login_change_dialog, TRUE);
         ReconfigureStudio = gtk_builder_get_object(builder, "ReconfigureStudio");

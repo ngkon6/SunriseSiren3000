@@ -15,7 +15,7 @@ Preferences pref;
 #include "Button.h"
 #include "Authentication.h"
 
-#define FIRMWARE_VERSION 12
+#define FIRMWARE_VERSION 14
 #define FIRMWARE_SUBVERSION 0
 #define HOSTNAME "sunrisesiren3000"
 
@@ -59,6 +59,8 @@ String alarmTimes;
 int alarmUpcomingIndex;
 int alarmEditHour;
 int alarmEditMinute;
+bool dailyRebootEnabled;
+String dailyRebootTime;
 
 int customSegments[4];
 CRGB customColors[4];
@@ -88,6 +90,8 @@ void loadSettings() {
   snoozeInterval = pref.getInt("snooze-t");
   ldr.minValue = pref.getInt("ldr-min");
   ldr.maxValue = pref.getInt("ldr-max");
+  dailyRebootEnabled = pref.getBool("dr-enabled", false);
+  dailyRebootTime = pref.getString("dr-time", "0000");
 }
 
 void updateAlarms() {
@@ -183,7 +187,11 @@ void setup() {
       output.concat(ldr.minValue);
       output.concat(",\n    \"max\": ");
       output.concat(ldr.maxValue);
-      output.concat("\n  }\n}");
+      output.concat("\n  },\n  \"dailyReboot\": {\n    \"on\": ");
+      output.concat(dailyRebootEnabled ? "true" : "false");
+      output.concat(",\n    \"time\": \"");
+      output.concat(dailyRebootTime);
+      output.concat("\"\n  }\n}");
 
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "application/json", output);
@@ -230,6 +238,10 @@ void setup() {
         pref.putBool("enable-dst", server.arg("enable-dst").toInt() == 1);
       if (server.hasArg("duty-cycle") && server.arg("duty-cycle").toInt() != pref.getInt("duty-cycle"))
         pref.putInt("duty-cycle", server.arg("duty-cycle").toInt());
+      if (server.hasArg("dr-enabled") && server.arg("dr-enabled").toInt() != pref.getBool("dr-enabled"))
+        pref.putBool("dr-enabled", server.arg("dr-enabled").toInt() == 1);
+      if (server.hasArg("dr-time") && !server.arg("dr-time").equals(pref.getString("dr-time")))
+        pref.putString("dr-time", server.arg("dr-time"));
 
       if (server.hasArg("alarms-enabled") && server.arg("alarms-enabled").toInt() != pref.getInt("alarms-enabled"))
         pref.putInt("alarms-enabled", server.arg("alarms-enabled").toInt());
@@ -394,6 +406,8 @@ void loop() {
 
   String t = ntp.getTime();
   int d = ntp.getDay();
+
+  if (dailyRebootEnabled && t.equals(dailyRebootTime) && millis() >= 3e5) ESP.restart();
 
   bool alarmJustTripped = alarms[d].update(t, snoozeInterval, constrain(buzzerDutyCycle, 25, 90) / 100.0);
   bool alarmAlreadyTrippedToday = (t >= alarms[d].time);

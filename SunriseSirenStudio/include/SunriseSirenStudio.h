@@ -1,8 +1,8 @@
 #ifndef _sunrise_siren_studio_h
 #define _sunrise_siren_studio_h
 
-#define STUDIO_VERSION "v2.2.0"
-#define REQUIRED_FIRMWARE_VERSION 12
+#define STUDIO_VERSION "v2.3.0"
+#define REQUIRED_FIRMWARE_VERSION 14
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -90,6 +90,9 @@ GtkSpinButton *SnoozeInterval;
 GtkSpinButton *ClockReturn;
 GtkSpinButton *LDRMin;
 GtkSpinButton *LDRMax;
+GtkSwitch *EnableDailyReboot;
+GtkSpinButton *DailyRebootHour;
+GtkSpinButton *DailyRebootMinute;
 
 GtkButton *ReconfigureClock;
 GtkButton *ReconfigureStudio;

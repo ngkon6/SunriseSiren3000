@@ -226,6 +226,12 @@ static void stop_countdown(GtkWidget *widget, gpointer user_data) {
     }
 }
 
+// settings
+static void validate_dailyreboot_time_sensitivity(GtkWidget *widget, gboolean state, gpointer user_data) {
+    gtk_widget_set_sensitive(DailyRebootHour, state);
+    gtk_widget_set_sensitive(DailyRebootMinute, state);
+}
+
 // Sunrise Siren 3000 information
 void fetch_information() {
     gchar* information_url[PATH_MAX];
@@ -310,6 +316,14 @@ static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
         alarm_hours[6], alarm_minutes[6]
     );
 
+    gboolean dr_enabled = gtk_switch_get_active(EnableDailyReboot);
+    gchar *dr_time[4];
+    sprintf(
+        dr_time, "%02i%02i",
+        gtk_spin_button_get_value_as_int(DailyRebootHour),
+        gtk_spin_button_get_value_as_int(DailyRebootMinute)
+    );
+
     gint leading_zero = gtk_switch_get_active(EnableLeadingZero);
     gint dst = gtk_switch_get_active(EnableDST);
     gint duty_cycle = gtk_spin_button_get_value_as_int(BuzzerDutyCycle);
@@ -325,8 +339,8 @@ static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
     sprintf(post_url, "http://%s/update", hostname);
     sprintf(
         post_string,
-        "default-c=%ld&highlight-c=%ld&alarms-enabled=%i&alarm-times=%s&leading-zero=%i&enable-dst=%i&duty-cycle=%i&snooze-t=%i&clock-return=%i&ldr-min=%i&ldr-max=%i",
-        default_c_number, highlight_c_number, alarms_enabled, alarm_times, leading_zero, dst, duty_cycle, snooze_t, return_after, ldr_min, ldr_max
+        "default-c=%ld&highlight-c=%ld&alarms-enabled=%i&alarm-times=%s&leading-zero=%i&enable-dst=%i&duty-cycle=%i&snooze-t=%i&clock-return=%i&ldr-min=%i&ldr-max=%i&dr-enabled=%i&dr-time=%s",
+        default_c_number, highlight_c_number, alarms_enabled, alarm_times, leading_zero, dst, duty_cycle, snooze_t, return_after, ldr_min, ldr_max, dr_enabled, dr_time
     );
 
     // step 3: yeet a request

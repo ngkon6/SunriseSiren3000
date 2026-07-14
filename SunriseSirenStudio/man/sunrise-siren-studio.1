@@ -91,6 +91,10 @@ Allowed values: 5s - 3600s
 .br
 Allowed values: 0 - 4096
 .TP
+\- Daily reboot. Useful to prevent the ESP32 inside from running slower over time. The Sunrise Siren 3000 only reboots if its uptime is above 5 minutes.
+.br
+Allowed values: 0 - 23h, 0 - 59m
+.TP
 \- Change Sunrise Siren 3000 credentials. This will change the login username and password \fBof the clock itself\fR.
 .br
 Be careful with this, this will erase the current credentials forever!
