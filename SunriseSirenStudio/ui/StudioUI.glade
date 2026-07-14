@@ -3481,6 +3481,52 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">The amount of time that the Sunrise Siren 3000 is up and running.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-top">8</property>
+                                <property name="margin-bottom">8</property>
+                                <property name="label" translatable="yes">Uptime</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="UptimeReading">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="margin-right">8</property>
+                                <property name="margin-end">8</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">5.2 s</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
                                 <property name="tooltip-text" translatable="yes">The firmware version of the Sunrise Siren 3000. Upgrades may or may not be compatible with this version of Sunrise Siren Studio.</property>
                                 <property name="margin-start">8</property>
                                 <property name="margin-top">8</property>

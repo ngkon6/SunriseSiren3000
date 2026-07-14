@@ -98,6 +98,7 @@ GtkButton *ReconfigureClock;
 GtkButton *ReconfigureStudio;
 
 // Information
+GtkLabel *UptimeReading;
 GtkLabel *FirmwareVersionReading;
 GtkLabel *NeoPixelBrightnessReading;
 GtkLabel *LDRReading;

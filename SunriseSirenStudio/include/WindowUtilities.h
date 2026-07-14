@@ -240,11 +240,15 @@ void fetch_information() {
 
     if (information_response) {
         if (clock_information = json_tokener_parse(information_response)) {
+            gchar *uptime_label[18];
             gchar *fw_version_label[8];
             gchar *brightness_label[3];
             gchar *ldr_label[4];
             gchar *temperature_label[20];
             gchar *humidity_label[20];
+
+            uint64_t up = json_object_get_uint64(json_object_object_get(clock_information, "uptime"));
+            sprintf(uptime_label, "%id %ih %im %is", up / 60 / 60 / 24, up / 60 / 60 % 24, up / 60 % 60, up % 60);
 
             sprintf(fw_version_label, "%i.%i", request_last_firmware_version, json_object_get_int(json_object_object_get(clock_information, "subversion")));
             sprintf(brightness_label, "%d", json_object_get_int(json_object_object_get(clock_information, "brightness")));
@@ -262,6 +266,7 @@ void fetch_information() {
                 json_object_get_double(json_object_object_get(json_object_object_get(clock_information, "humidity"), "translated"))
             );
 
+            gtk_label_set_label(UptimeReading, uptime_label);
             gtk_label_set_label(FirmwareVersionReading, fw_version_label);
             gtk_label_set_label(NeoPixelBrightnessReading, brightness_label);
             gtk_label_set_label(LDRReading, ldr_label);

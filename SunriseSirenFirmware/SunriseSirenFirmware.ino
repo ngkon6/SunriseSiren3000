@@ -200,7 +200,9 @@ void setup() {
       if (!server.authenticate(auth.getUsername(), auth.getPassword())) return server.requestAuthentication();
       else if (!server.header("User-Agent").startsWith("sunrise-siren-studio/v")) return sendGitHubRedirect();
 
-      String output = "{\n  \"subversion\": ";
+      String output = "{\n  \"uptime\": ";
+      output.concat(millis() / 1000);
+      output.concat(",\n  \"subversion\": ");
       output.concat(String(FIRMWARE_SUBVERSION));
       output.concat(",\n  \"ldr\": ");
       output.concat(ldr.rawValue);

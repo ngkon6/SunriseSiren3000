@@ -290,6 +290,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         g_signal_connect(ReconfigureStudio, "clicked", reconfigure_studio, TRUE);
 
         // Information
+        UptimeReading = gtk_builder_get_object(builder, "UptimeReading");
         FirmwareVersionReading = gtk_builder_get_object(builder, "FirmwareVersionReading");
         NeoPixelBrightnessReading = gtk_builder_get_object(builder, "NeoPixelBrightnessReading");
         LDRReading = gtk_builder_get_object(builder, "LDRReading");
