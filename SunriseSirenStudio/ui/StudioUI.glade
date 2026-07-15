@@ -505,7 +505,7 @@
   </object>
   <object class="GtkWindow" id="IncompatibleFirmwareWindow">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Outdated firmware</property>
+    <property name="title" translatable="yes">Incompatible firmware</property>
     <property name="resizable">False</property>
     <child>
       <object class="GtkBox">
