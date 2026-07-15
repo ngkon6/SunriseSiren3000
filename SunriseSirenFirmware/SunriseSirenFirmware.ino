@@ -19,7 +19,7 @@ Preferences pref;
 #define FIRMWARE_SUBVERSION 0
 #define HOSTNAME "sunrisesiren3000"
 
-enum State {
+typedef enum {
   CLOCK,
   ALARM_PREVIEW,
   ALARM_EDIT_HOURS,
@@ -28,7 +28,7 @@ enum State {
   HUMIDITY,
   CUSTOM,
   COUNTDOWN
-};
+} State;
 
 WebServer server(80);
 
@@ -45,7 +45,7 @@ SunriseSiren3000Auth auth;
 unsigned long ticks = 0;
 unsigned long rebootSignalSentAt = 0;
 unsigned long lastStateCycledAt = 0;
-enum State currentState = CLOCK;
+State currentState = State::CLOCK;
 bool asleep = false;
 int sleepLevel = 0; // 0 = not asleep, MAX_BRIGHTNESS = zzz
 
@@ -112,9 +112,9 @@ String generateAlarms() {
 void cycleState() {
   lastStateCycledAt = millis();
 
-  if (currentState == CLOCK) currentState = TEMPERATURE;
-  else if (currentState == TEMPERATURE) currentState = HUMIDITY;
-  else currentState = CLOCK;
+  if (currentState == State::CLOCK) currentState = State::TEMPERATURE;
+  else if (currentState == State::TEMPERATURE) currentState = State::HUMIDITY;
+  else currentState = State::CLOCK;
 }
 
 int getDigit(float value, int exponent) {
@@ -264,7 +264,7 @@ void setup() {
       ntp.setDST(enableDST);
 
       asleep = false;
-      currentState = CLOCK;
+      currentState = State::CLOCK;
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
@@ -279,7 +279,7 @@ void setup() {
       if (server.hasArg("color-colon")) customColonPoint = CRGB(server.arg("color-colon").toInt());
 
       asleep = false;
-      currentState = CUSTOM;
+      currentState = State::CUSTOM;
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
@@ -298,14 +298,14 @@ void setup() {
       countdown.start(totalSeconds);
 
       asleep = false;
-      currentState = COUNTDOWN;
+      currentState = State::COUNTDOWN;
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       server.send(200, "text/plain", "Done!");
     });
     server.on("/countdown", HTTP_DELETE, []() {
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
-      if (currentState == COUNTDOWN) {
-        currentState = CLOCK;
+      if (currentState == State::COUNTDOWN) {
+        currentState = State::CLOCK;
         server.send(200, "text/plain", "Done!");
       } else server.send(400, "text/plain", "Unable in current state.");
     });
@@ -324,7 +324,7 @@ void setup() {
       server.sendHeader("Firmware-Version", String(FIRMWARE_VERSION), true);
       if (asleep) {
         server.send(418, "text/plain", "zzz... huh? I'm a teapot already doing zzz!");
-      } else if (currentState == COUNTDOWN || currentState == ALARM_EDIT_HOURS || currentState == ALARM_EDIT_MINUTES) {
+      } else if (currentState == State::COUNTDOWN || currentState == State::ALARM_EDIT_HOURS || currentState == State::ALARM_EDIT_MINUTES) {
         server.send(400, "text/plain", "Unable in current state.");
       } else {
         asleep = true;
@@ -418,23 +418,23 @@ void loop() {
   if (button.released) {
     if (asleep) asleep = false; else {
       if (alarms[d].tripping) alarms[d].snooze();
-      else if (currentState == ALARM_EDIT_HOURS) {
+      else if (currentState == State::ALARM_EDIT_HOURS) {
         if (++alarmEditHour >= 24) alarmEditHour = 0;
-      } else if (currentState == ALARM_EDIT_MINUTES) {
+      } else if (currentState == State::ALARM_EDIT_MINUTES) {
         if (++alarmEditMinute >= 60) alarmEditMinute = 0;
       }
-      else if (currentState == COUNTDOWN && !countdown.ended) countdown.togglePause();
+      else if (currentState == State::COUNTDOWN && !countdown.ended) countdown.togglePause();
       else cycleState();
     }
   } else if (button.held && !asleep) {
     if (alarms[d].tripping || alarms[d].snoozed) alarms[d].stop();
-    else if (currentState == ALARM_PREVIEW && alarms[alarmUpcomingIndex].enabled) {
-      currentState = ALARM_EDIT_HOURS;
+    else if (currentState == State::ALARM_PREVIEW && alarms[alarmUpcomingIndex].enabled) {
+      currentState = State::ALARM_EDIT_HOURS;
       alarmEditHour = alarms[alarmUpcomingIndex].time.substring(0, 2).toInt();
       alarmEditMinute = alarms[alarmUpcomingIndex].time.substring(2, 4).toInt();
     }
-    else if (currentState == ALARM_EDIT_HOURS) currentState = ALARM_EDIT_MINUTES;
-    else if (currentState == ALARM_EDIT_MINUTES) {
+    else if (currentState == State::ALARM_EDIT_HOURS) currentState = State::ALARM_EDIT_MINUTES;
+    else if (currentState == State::ALARM_EDIT_MINUTES) {
       char newTime[4];
       sprintf(newTime, "%02d%02d", alarmEditHour, alarmEditMinute);
 
@@ -448,23 +448,23 @@ void loop() {
       loadSettings();
       updateAlarms();
       pref.end();
-      currentState = CLOCK;
+      currentState = State::CLOCK;
     }
-    else if (currentState == COUNTDOWN) currentState = CLOCK;
+    else if (currentState == State::COUNTDOWN) currentState = State::CLOCK;
     else {
       lastStateCycledAt = millis();
-      currentState = ALARM_PREVIEW;
+      currentState = State::ALARM_PREVIEW;
     }
   }
 
   if (
     (millis() - lastStateCycledAt >= clockReturn &&
-    !(currentState == CLOCK || currentState == CUSTOM || currentState == COUNTDOWN || currentState == ALARM_EDIT_HOURS || currentState == ALARM_EDIT_MINUTES)) ||
+    !(currentState == State::CLOCK || currentState == State::CUSTOM || currentState == State::COUNTDOWN || currentState == State::ALARM_EDIT_HOURS || currentState == State::ALARM_EDIT_MINUTES)) ||
     alarmJustTripped
-  ) currentState = CLOCK;
+  ) currentState = State::CLOCK;
   if (alarmJustTripped) asleep = false;
 
-  if (currentState == CLOCK) {
+  if (currentState == State::CLOCK) {
     if (countdown.started) countdown.stop();
 
     CRGB clockColor = (alarms[d].activity) ? lights.highlightColor : lights.defaultColor;
@@ -475,38 +475,38 @@ void loop() {
 
     buzzer.enabled = alarms[d].activity;
     buzzer.update();
-  } else if (currentState == TEMPERATURE) {
+  } else if (currentState == State::TEMPERATURE) {
     lights.showSingleDigit(0, getDigit(sht21.temperature, 1), lights.defaultColor);
     lights.showSingleDigit(1, getDigit(sht21.temperature, 0), lights.defaultColor);
     lights.showSingleDigit(2, DIGIT_DEGREE, lights.defaultColor);
     lights.showSingleDigit(3, DIGIT_C, lights.defaultColor);
     lights.setColonPoint(CRGB::Black);
-  } else if (currentState == HUMIDITY) {
+  } else if (currentState == State::HUMIDITY) {
     lights.showSingleDigit(0, DIGIT_H, lights.defaultColor);
     lights.showSingleDigit(1, DIGIT_u, lights.defaultColor);
     lights.showSingleDigit(2, getDigit(sht21.humidity, 1), lights.defaultColor);
     lights.showSingleDigit(3, getDigit(sht21.humidity, 0), lights.defaultColor);
     lights.setColonPoint(lights.defaultColor);
-  } else if (currentState == ALARM_PREVIEW) {
+  } else if (currentState == State::ALARM_PREVIEW) {
     const int colonFrequency = (alarmUpcomingIndex == d) ? 500 : 1200;
     const String preview = alarms[alarmUpcomingIndex].enabled ? alarms[alarmUpcomingIndex].time : "----";
 
     lights.showTime(preview, lights.defaultColor, leadingZero);
     lights.setColonPoint((millis() % colonFrequency < colonFrequency / 2) ? lights.defaultColor : CRGB::Black);
-  } else if (currentState == ALARM_EDIT_HOURS || currentState == ALARM_EDIT_MINUTES) {
-    CRGB hourColor = (currentState == ALARM_EDIT_HOURS && millis() % 1000 < 500) ? lights.highlightColor : lights.defaultColor;
-    CRGB minuteColor = (currentState == ALARM_EDIT_MINUTES && millis() % 1000 < 500) ? lights.highlightColor : lights.defaultColor;
+  } else if (currentState == State::ALARM_EDIT_HOURS || currentState == State::ALARM_EDIT_MINUTES) {
+    CRGB hourColor = (currentState == State::ALARM_EDIT_HOURS && millis() % 1000 < 500) ? lights.highlightColor : lights.defaultColor;
+    CRGB minuteColor = (currentState == State::ALARM_EDIT_MINUTES && millis() % 1000 < 500) ? lights.highlightColor : lights.defaultColor;
 
     lights.showSingleDigit(0, getDigit(alarmEditHour, 1), hourColor);
     lights.showSingleDigit(1, getDigit(alarmEditHour, 0), hourColor);
     lights.showSingleDigit(2, getDigit(alarmEditMinute, 1), minuteColor);
     lights.showSingleDigit(3, getDigit(alarmEditMinute, 0), minuteColor);
     lights.setColonPoint(lights.defaultColor);
-  } else if (currentState == CUSTOM) {
+  } else if (currentState == State::CUSTOM) {
     for (int i=0; i<4; i++) lights.showCustomDigit(i, customSegments[i], customColors[i]);
 
     lights.setColonPoint(customColonPoint);
-  } else if (currentState == COUNTDOWN) {
+  } else if (currentState == State::COUNTDOWN) {
     CRGB clockColor = (countdown.activity) ? lights.highlightColor : lights.defaultColor;
 
     if (countdown.secondsOnly) {

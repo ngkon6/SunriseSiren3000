@@ -7,12 +7,12 @@
 
 #include "../include/WindowUtilities.h"
 
-enum TargetWindow {
+typedef enum {
     WINDOW_MAIN,
     WINDOW_CONNECTION,
     WINDOW_CONNECT_ERROR,
     WINDOW_INCOMPATIBLE_FIRMWARE
-};
+} TargetWindow;
 
 void* thread_function() {
     while (1) {
@@ -25,7 +25,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
     curl_global_init(CURL_GLOBAL_ALL);
     credentials = g_settings_new("org.x.sunrise-siren-studio.credentials");
 
-    enum TargetWindow target;
+    TargetWindow target;
 
     // step 1: check if the config file exists
     if (credentials_exist() && g_settings_get_boolean(credentials, "connect-immediately")) {

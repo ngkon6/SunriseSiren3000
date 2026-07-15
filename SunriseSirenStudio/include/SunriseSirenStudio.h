@@ -140,8 +140,6 @@ GtkEntry *ChangeNewPasswordRetype;
 GtkButton *ChangeCancel;
 GtkButton *ChangeConfirm;
 
-enum TargetWindow;
-
 void* thread_function();
 void do_absolutely_nothing() {};
 
