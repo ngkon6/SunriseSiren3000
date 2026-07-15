@@ -104,6 +104,11 @@ With `apt`, those can be installed by running:
 > ```bash
 > man sunrise-siren-studio
 > ```
+> Also accessible directly from the repository, useful when testing changes:
+> ```bash
+> man -l man/sunrise-siren-studio.1
+> ```
+> Note that this command assumes that you are in the `SunriseSirenStudio` directory.
 
 ## Connecting for the first time
 First, ensure that your Sunrise Siren Studio device is on the same Wi-Fi network as the Sunrise Siren 3000.

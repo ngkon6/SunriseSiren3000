@@ -91,7 +91,7 @@ Allowed values: 5s - 3600s
 .br
 Allowed values: 0 - 4096
 .TP
-\- Daily reboot. Useful to prevent the ESP32 inside from running slower over time. The Sunrise Siren 3000 only reboots if its uptime is above 5 minutes.
+\- Daily reboot. Useful to prevent the ESP32 inside from running slower over time. The Sunrise Siren 3000 does not reboot if its uptime is under 5 minutes.
 .br
 Allowed values: 0 - 23h, 0 - 59m
 .TP
@@ -105,6 +105,8 @@ Be careful with this as well!
 
 .SS Information
 Some wonderful information:
+.TP
+\- Uptime. The amount of time that the Sunrise Siren 3000 is up and running. Resets on a reboot or power disconnect.
 .TP
 \- Firmware version of the Sunrise Siren 3000.
 .br
@@ -125,6 +127,8 @@ Note that there is a main version (on the left of the dot) and a subversion (on 
 \- A beautiful dialog showing very interesting information about Sunrise Siren Studio.
 .TP
 \- And finally, button that will bring you to the fabulous GitHub page.
+.TP
+The information can be refreshed by clicking the "Refresh values" button. If this button is not visible, it is done automatically every 5 seconds.
 
 .SH "KEYBINDS"
 In Sunrise Siren Studio, the following keybinds can be used:
@@ -141,7 +145,7 @@ Reboot the Sunrise Siren 3000.
 .br
 Reboot Sunrise Siren Studio.
 .TP
-\fBCtrl+W\fR
+\fBCtrl+Q, Ctrl+W\fR
 .br
 Close Sunrise Siren Studio.
 .TP
