@@ -88,11 +88,11 @@ GtkSwitch *EnableDST;
 GtkSpinButton *BuzzerDutyCycle;
 GtkSpinButton *SnoozeInterval;
 GtkSpinButton *ClockReturn;
-GtkSpinButton *LDRMin;
-GtkSpinButton *LDRMax;
 GtkSwitch *EnableDailyReboot;
 GtkSpinButton *DailyRebootHour;
 GtkSpinButton *DailyRebootMinute;
+GtkSpinButton *LDRMin;
+GtkSpinButton *LDRMax;
 
 GtkButton *ReconfigureClock;
 GtkButton *ReconfigureStudio;

@@ -2136,7 +2136,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">12</property>
                                 <property name="margin-end">12</property>
                                 <property name="margin-top">4</property>
                                 <property name="margin-bottom">4</property>
@@ -2180,7 +2179,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">12</property>
                                 <property name="margin-end">12</property>
                                 <property name="margin-top">4</property>
                                 <property name="margin-bottom">4</property>
@@ -2244,7 +2242,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">8</property>
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes"> %</property>
                               </object>
@@ -2306,7 +2303,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">8</property>
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes"> seconds</property>
                               </object>
@@ -2369,7 +2365,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">8</property>
                                 <property name="margin-end">8</property>
                                 <property name="label" translatable="yes"> seconds</property>
                               </object>
@@ -2377,6 +2372,109 @@
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When enabled, the Sunrise Siren 3000 will automatically reboot at the given time every day. This can help to prevent the ESP32 from running slower.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Daily reboot</property>
+                                <property name="xalign">0</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="EnableDailyReboot">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-right">16</property>
+                                <property name="margin-end">16</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-end">14</property>
+                                <property name="label" translatable="yes">at</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="DailyRebootHour">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="input-purpose">digits</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes"> : </property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="DailyRebootMinute">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="margin-end">8</property>
+                                <property name="text" translatable="yes">0</property>
+                                <property name="input-purpose">digits</property>
+                                <property name="climb-rate">1</property>
+                                <property name="snap-to-ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">5</property>
                               </packing>
                             </child>
                           </object>
@@ -2459,7 +2557,6 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="halign">end</property>
-                                <property name="margin-right">8</property>
                                 <property name="margin-end">8</property>
                                 <property name="text" translatable="yes">5</property>
                                 <property name="input-purpose">digits</property>
@@ -2474,108 +2571,6 @@
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">4</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkListBoxRow">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="tooltip-text" translatable="yes">When enabled, the Sunrise Siren 3000 will automatically reboot at the given time every day. This can help to prevent the ESP32 from running slower.</property>
-                                <property name="margin-left">8</property>
-                                <property name="margin-start">8</property>
-                                <property name="label" translatable="yes">Daily reboot</property>
-                                <property name="xalign">0</property>
-                              </object>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSwitch" id="EnableDailyReboot">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="margin-right">16</property>
-                                <property name="margin-end">16</property>
-                                <property name="margin-top">4</property>
-                                <property name="margin-bottom">4</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="margin-end">16</property>
-                                <property name="label" translatable="yes">at</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="DailyRebootHour">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="input-purpose">digits</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes"> : </property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="DailyRebootMinute">
-                                <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
-                                <property name="input-purpose">digits</property>
-                                <property name="climb-rate">1</property>
-                                <property name="snap-to-ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">5</property>
                               </packing>
                             </child>
                           </object>

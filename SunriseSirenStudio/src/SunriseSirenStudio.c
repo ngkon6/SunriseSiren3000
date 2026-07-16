@@ -261,12 +261,6 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         ClockReturn = gtk_builder_get_object(builder, "ClockReturn");
         gtk_spin_button_set_value(ClockReturn, json_object_get_int(json_object_object_get(clock_status, "clockReturn")));
 
-        LDRMin = gtk_builder_get_object(builder, "LDRMin");
-        gtk_spin_button_set_value(LDRMin, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "min")));
-
-        LDRMax = gtk_builder_get_object(builder, "LDRMax");
-        gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
-
         EnableDailyReboot = gtk_builder_get_object(builder, "EnableDailyReboot");
         g_signal_connect(EnableDailyReboot, "state-set", validate_dailyreboot_time_sensitivity, NULL);
 
@@ -283,6 +277,12 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         gboolean daily_reboot = json_object_get_boolean(json_object_object_get(json_object_object_get(clock_status, "dailyReboot"), "on"));
         gtk_switch_set_active(EnableDailyReboot, daily_reboot);
         validate_dailyreboot_time_sensitivity(EnableDailyReboot, daily_reboot, NULL);
+
+        LDRMin = gtk_builder_get_object(builder, "LDRMin");
+        gtk_spin_button_set_value(LDRMin, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "min")));
+
+        LDRMax = gtk_builder_get_object(builder, "LDRMax");
+        gtk_spin_button_set_value(LDRMax, json_object_get_int(json_object_object_get(json_object_object_get(clock_status, "ldr"), "max")));
 
         ReconfigureClock = gtk_builder_get_object(builder, "ReconfigureClock");
         g_signal_connect(ReconfigureClock, "clicked", login_change_dialog, TRUE);
@@ -317,7 +317,7 @@ static void onActivate(GtkApplication *app, gpointer user_data) {
         ChangeCancel = gtk_builder_get_object(builder, "ChangeCancel");
         g_signal_connect(ChangeCancel, "clicked", login_change_dialog, FALSE);
         ChangeConfirm = gtk_builder_get_object(builder, "ChangeConfirm");
-        g_signal_connect(ChangeConfirm, "clicked", reconfigure_clock, NULL); // todo: don't cancel
+        g_signal_connect(ChangeConfirm, "clicked", reconfigure_clock, NULL);
 
         gtk_application_add_window(app, MainWindow);
         gtk_widget_show_all(MainWindow);
