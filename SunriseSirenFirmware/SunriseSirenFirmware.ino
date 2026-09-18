@@ -242,6 +242,8 @@ void setup() {
         pref.putBool("leading-zero", server.arg("leading-zero").toInt() == 1);
       if (server.hasArg("enable-dst") && server.arg("enable-dst").toInt() != pref.getBool("enable-dst"))
         pref.putBool("enable-dst", server.arg("enable-dst").toInt() == 1);
+      if (server.hasArg("mute-buzzer") && server.arg("mute-buzzer").toInt() != pref.getBool("mute-buzzer"))
+        pref.putBool("mute-buzzer", server.arg("mute-buzzer").toInt() == 1);
       if (server.hasArg("duty-cycle") && server.arg("duty-cycle").toInt() != pref.getInt("duty-cycle"))
         pref.putInt("duty-cycle", server.arg("duty-cycle").toInt());
       if (server.hasArg("dr-enabled") && server.arg("dr-enabled").toInt() != pref.getBool("dr-enabled"))
