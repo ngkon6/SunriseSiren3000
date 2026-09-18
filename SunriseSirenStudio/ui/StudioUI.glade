@@ -2206,6 +2206,49 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">When the actual time no longer equals the alarm time, the buzzer stops beeping if enabled, while the NeoPixels still flash. Does not apply to countdowns.</property>
+                                <property name="margin-left">8</property>
+                                <property name="margin-start">8</property>
+                                <property name="label" translatable="yes">Mute buzzer after 1 minute</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="MuteBuzzer">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="margin-end">12</property>
+                                <property name="margin-top">4</property>
+                                <property name="margin-bottom">4</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
                                 <property name="tooltip-text" translatable="yes">Defines the how many percent of one second the buzzer is on during an alarm or countdown end.</property>
                                 <property name="margin-left">8</property>
                                 <property name="margin-start">8</property>

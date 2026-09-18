@@ -331,6 +331,7 @@ static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
 
     gint leading_zero = gtk_switch_get_active(EnableLeadingZero);
     gint dst = gtk_switch_get_active(EnableDST);
+    gint mute = gtk_switch_get_active(MuteBuzzer);
     gint duty_cycle = gtk_spin_button_get_value_as_int(BuzzerDutyCycle);
     gint snooze_t = gtk_spin_button_get_value_as_int(SnoozeInterval) * 1000;
     gint return_after = gtk_spin_button_get_value_as_int(ClockReturn) * 1000;
@@ -344,8 +345,8 @@ static void apply_clock_settings(GtkWidget *widget, gpointer user_data) {
     sprintf(post_url, "http://%s/update", hostname);
     sprintf(
         post_string,
-        "default-c=%ld&highlight-c=%ld&alarms-enabled=%i&alarm-times=%s&leading-zero=%i&enable-dst=%i&duty-cycle=%i&snooze-t=%i&clock-return=%i&ldr-min=%i&ldr-max=%i&dr-enabled=%i&dr-time=%s",
-        default_c_number, highlight_c_number, alarms_enabled, alarm_times, leading_zero, dst, duty_cycle, snooze_t, return_after, ldr_min, ldr_max, dr_enabled, dr_time
+        "default-c=%ld&highlight-c=%ld&alarms-enabled=%i&alarm-times=%s&leading-zero=%i&enable-dst=%i&mute-buzzer=%i&duty-cycle=%i&snooze-t=%i&clock-return=%i&ldr-min=%i&ldr-max=%i&dr-enabled=%i&dr-time=%s",
+        default_c_number, highlight_c_number, alarms_enabled, alarm_times, leading_zero, dst, mute, duty_cycle, snooze_t, return_after, ldr_min, ldr_max, dr_enabled, dr_time
     );
 
     // step 3: yeet a request

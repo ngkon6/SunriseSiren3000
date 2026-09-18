@@ -1,8 +1,8 @@
 #ifndef _sunrise_siren_studio_h
 #define _sunrise_siren_studio_h
 
-#define STUDIO_VERSION "v2.3.0"
-#define REQUIRED_FIRMWARE_VERSION 14
+#define STUDIO_VERSION "v2.4.0"
+#define REQUIRED_FIRMWARE_VERSION 15
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -85,6 +85,7 @@ GtkCheckButton *CustomAutoIncrement;
 // Settings
 GtkSwitch *EnableLeadingZero;
 GtkSwitch *EnableDST;
+GtkSwitch *MuteBuzzer;
 GtkSpinButton *BuzzerDutyCycle;
 GtkSpinButton *SnoozeInterval;
 GtkSpinButton *ClockReturn;

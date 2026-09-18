@@ -15,7 +15,7 @@ Preferences pref;
 #include "Button.h"
 #include "Authentication.h"
 
-#define FIRMWARE_VERSION 14
+#define FIRMWARE_VERSION 15
 #define FIRMWARE_SUBVERSION 0
 #define HOSTNAME "sunrisesiren3000"
 
@@ -53,6 +53,7 @@ unsigned int snoozeInterval;
 unsigned int clockReturn;
 bool leadingZero;
 bool enableDST;
+bool muteBuzzer;
 int buzzerDutyCycle;
 int alarmsEnabled;
 String alarmTimes;
@@ -83,6 +84,7 @@ void loadSettings() {
   lights.highlightColor = CRGB(pref.getInt("highlight-c"));
   clockReturn = pref.getInt("clock-return");
   leadingZero = pref.getBool("leading-zero");
+  muteBuzzer = pref.getBool("mute-buzzer");
   enableDST = pref.getBool("enable-dst");
   alarmsEnabled = pref.getInt("alarms-enabled");
   alarmTimes = pref.getString("alarm-times");
@@ -175,6 +177,8 @@ void setup() {
       output.concat(leadingZero ? "true" : "false");
       output.concat(",\n  \"enableDST\": ");
       output.concat(enableDST ? "true" : "false");
+      output.concat(",\n  \"muteBuzzer\": ");
+      output.concat(muteBuzzer ? "true" : "false");
       output.concat(",\n  \"clockReturn\": ");
       output.concat(clockReturn / 1000);
       output.concat(",\n  \"buzzerDutyCycle\": ");
@@ -473,7 +477,7 @@ void loop() {
     lights.showTime(t, clockColor, leadingZero);
     lights.setColonPoint(colonColor);
 
-    buzzer.enabled = alarms[d].activity;
+    buzzer.enabled = (alarms[d].activity && (t == alarms[d].time || !muteBuzzer));
     buzzer.update();
   } else if (currentState == State::TEMPERATURE) {
     lights.showSingleDigit(0, getDigit(sht21.temperature, 1), lights.defaultColor);
